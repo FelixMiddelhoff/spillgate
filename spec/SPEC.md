@@ -99,7 +99,7 @@ Evaluation order is normative and decides the outcome class when several faults 
 - **SG-R-CDC-06** A stream that ends before its end marker or trailer is `corrupt`, never a clean end, for every codec.
 - **SG-R-CDC-07** Declared sizes (gzip ISIZE, zstd frame content size, any length field in any header) MUST NOT be used for any decision, early rejection, or allowance, and MUST NOT size an allocation. The single exception is the decoder window of SG-R-CDC-04 and SG-R-CDC-05, which is a memory declaration and is checked against the cap.
 - **SG-R-CDC-08** A codec that panics, throws unexpectedly, violates its read contract, or returns more bytes than requested ends the stream with `internal`. The failure MUST NOT escape the library as a crash of the host.
-- **SG-R-CDC-09** Extension codecs are registered explicitly on a decoder instance. There is no process-global registry and no registration at import time. Registration MUST NOT replace `identity`, `gzip`, `deflate`, `br` or `zstd`, and the name MUST satisfy SG-R-HDR-04 and be lowercase; duplicates are an error.
+- **SG-R-CDC-09** Extension codecs are registered explicitly on a decoder instance. There is no process-global registry and no registration at import time. Registration MUST NOT replace or alias the built-in names `identity`, `gzip`, `deflate` and `x-gzip`; the optional codecs `br` and `zstd` are supplied through registration by their modules. The name MUST satisfy SG-R-HDR-04 and be lowercase; registering a name twice is an error.
 - **SG-R-CDC-10** `identity` passes bytes through the limiter, so unencoded bodies are bounded by MaxOutput too.
 
 ## 9. Reader contract
