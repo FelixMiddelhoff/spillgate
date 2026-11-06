@@ -41,7 +41,7 @@ conformance/
 | `input` | object | yes | See below. |
 | `limits` | object | yes | See below. |
 | `read_pattern` | int[] | no | Read sizes in bytes, applied cyclically. Default `[4096]`. `[1]` = byte at a time. A value of `-1` means "a buffer larger than MaxOutput+1 (capped at 2^31-1)". |
-| `options` | object | no | `raw_deflate` (bool), `memory_cap` (see below). |
+| `options` | object | no | `strict_zlib` (bool, disables the raw-deflate fallback of SG-R-CDC-03), `memory_cap` (bytes, window cap for br and zstd). |
 | `expect` | object | yes | See below. |
 
 ### `input`

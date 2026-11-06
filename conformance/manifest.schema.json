@@ -81,7 +81,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "raw_deflate": { "type": "boolean" },
+            "strict_zlib": { "type": "boolean" },
             "memory_cap": { "$ref": "#/$defs/bigint" }
           }
         },

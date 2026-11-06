@@ -35,9 +35,9 @@ Out of scope: archive formats (zip, tar, 7z), encryption, network timeouts, boun
 
 - **SG-R-LIM-01** MaxOutput has no default. An unset, zero, negative or non-integer MaxOutput MUST fail with `invalid_limits` before any byte is read from the source.
 - **SG-R-LIM-02** An implementation MUST support MaxOutput up to 2^63-1 without arithmetic overflow. Platforms whose native integers are narrower (for example JavaScript numbers) MUST either use arbitrary-width integers or reject larger values with `invalid_limits`, and MUST document the maximum.
-- **SG-R-LIM-03** MaxLayers defaults to 5 when unset. Values outside 1..16 (including 0 given explicitly) MUST fail with `invalid_limits`. Implementations whose zero value cannot be told apart from "unset" MUST map zero to the default and document it.
-- **SG-R-LIM-04** MaxRatio defaults to 1000 when unset. Explicit values outside 1..2^31-1 MUST fail with `invalid_limits`. The ratio check can be disabled only by one distinct, named opt-out value; no numeric value, including zero and negatives, disables it.
-- **SG-R-LIM-05** RatioGrace defaults to 65536 when unset. Negative values MUST fail with `invalid_limits`. Zero is valid and means the ratio is checked from the first produced byte.
+- **SG-R-LIM-03** MaxLayers defaults to 5 when unset. Values outside 1..16 (including 0 given explicitly) MUST fail with `invalid_limits`. A binding whose zero value cannot be told apart from "unset" (for example Go structs) maps zero to the default for MaxLayers, MaxRatio and RatioGrace and documents it. It MUST NOT do so for MaxOutput.
+- **SG-R-LIM-04** MaxRatio defaults to 1000 when unset. Explicit values outside 1..2^31-1 MUST fail with `invalid_limits`. The ratio check can be disabled only by one distinct, explicit opt-out (for example a dedicated boolean); no numeric value of MaxRatio, including zero and negatives, disables it. Supplying both a MaxRatio and the opt-out is `invalid_limits`.
+- **SG-R-LIM-05** RatioGrace defaults to 65536 when unset. Negative values MUST fail with `invalid_limits`. Zero is valid where the binding can express it and means the ratio is checked from the first produced byte; a binding that maps zero to the default documents that a grace of 1 byte has the same effect.
 - **SG-R-LIM-06** MaxInput is absent by default (no input cap). If supplied it MUST be greater than zero, else `invalid_limits`. Zero MUST NOT mean "unlimited".
 - **SG-R-LIM-07** No value of MaxOutput or MaxLayers disables or weakens the corresponding limit. The only opt-outs that exist are the named ratio opt-out and the absence of MaxInput.
 - **SG-R-LIM-08** All parameters MUST be validated completely at construction, before any byte is read from the source and before any codec state is allocated.
@@ -51,18 +51,18 @@ Evaluation order is normative and decides the outcome class when several faults 
 
 - **SG-R-HDR-01** The field values are joined in order with `,` into one list. A sequence of zero values is the empty chain (identity only).
 - **SG-R-HDR-02** If the joined list is longer than 1024 bytes the result is `malformed_encoding`.
-- **SG-R-HDR-03** The list is split at `,`. Space and horizontal tab around each element are trimmed. An empty element (including a field value that is empty or only whitespace, and a trailing or leading comma) is `malformed_encoding`. This deliberately differs from RFC 9110 leniency (fail closed).
+- **SG-R-HDR-03** The list is split at `,`. Space and horizontal tab around each element are trimmed. Empty elements (a leading, trailing or doubled comma, or a field value that is empty or only whitespace) are ignored, as RFC 9110 section 5.6.1.2 requires of recipients, and do not count as elements. Their number is bounded by the 1024-byte cap of SG-R-HDR-02. A list with no non-empty element is the empty chain.
 - **SG-R-HDR-04** Each trimmed element MUST match `[A-Za-z0-9][A-Za-z0-9._-]{0,31}`. Anything else (parameters, quotes, semicolons, control characters, non-ASCII bytes, longer tokens) is `malformed_encoding`.
 - **SG-R-HDR-05** Token comparison is ASCII case-insensitive. No Unicode normalization or folding is performed.
-- **SG-R-HDR-06** More than 16 elements, counting `identity`, is `layer_limit`, independent of MaxLayers.
-- **SG-R-HDR-07** The only alias is `x-gzip` for `gzip`. In particular `x-compress` is not an alias.
+- **SG-R-HDR-06** More than 16 non-empty elements, counting `identity`, is `layer_limit`, independent of MaxLayers.
+- **SG-R-HDR-07** The only alias is `x-gzip` for `gzip` (RFC 9110 section 8.4.1.3). `x-compress` is treated like `compress`: unsupported.
 - **SG-R-HDR-08** Supported tokens are `identity`, `gzip`, `deflate`, plus `br` and `zstd` when the corresponding codec is available, plus tokens of explicitly registered extension codecs (SG-R-CDC-09). Any other well-formed token (for example `compress`, `dcb`, `dcz`, `aes128gcm`, `snappy`, `deflate64`) is `unsupported_encoding`.
 - **SG-R-HDR-09** Support is checked for the whole list at construction. A chain with any unsupported element MUST NOT be partially decoded, and MUST NOT start reading the source.
-- **SG-R-HDR-10** `identity` is a no-op. It does not count as a layer for MaxLayers but counts toward the 16-element cap of SG-R-HDR-06.
+- **SG-R-HDR-10** `identity` is a no-op (RFC 9110 discourages sending it but allows it). It does not count as a layer for MaxLayers but counts toward the 16-element cap of SG-R-HDR-06.
 - **SG-R-HDR-11** The number of non-identity layers greater than MaxLayers is `layer_limit`, reported at construction.
 - **SG-R-HDR-12** Decoding order is the reverse of the listed order (the last listed token is layer 1).
 - **SG-R-HDR-13** Error messages MUST NOT contain more than 32 bytes of attacker-controlled data, and any such data MUST be quoted and escaped so it cannot inject control characters or forge log lines.
-- **SG-R-HDR-14** Equivalent presentations MUST yield the same result: one comma-separated value and several field values with the same elements in the same order are identical; case variants of a token are identical.
+- **SG-R-HDR-14** Equivalent presentations MUST yield the same result: one comma-separated value and several field values with the same elements in the same order are identical; case variants of a token are identical; inserted empty elements and whitespace change nothing.
 
 ## 5. Layer semantics
 
@@ -86,16 +86,16 @@ Evaluation order is normative and decides the outcome class when several faults 
 
 ## 7. Input limit
 
-- **SG-R-INP-01** If MaxInput is set, taking a MaxInput+1-th byte from the source is `input_limit`. It applies to the chain's source (layer 1 input), also for identity-only chains.
-- **SG-R-INP-02** With MaxInput set the implementation MUST NOT read more than MaxInput bytes from the source.
+- **SG-R-INP-01** If MaxInput is set, a codec taking a MaxInput+1-th byte from the source is `input_limit`. It applies to the chain's source (layer 1 input), also for identity-only chains. A stream that fits in MaxInput bytes is unaffected even if the source holds more bytes after it.
+- **SG-R-INP-02** With MaxInput set the implementation MUST NOT request more than MaxInput+1 bytes from the source in total; the one extra byte is the probe that detects the violation.
 
 ## 8. Codecs
 
 - **SG-R-CDC-01** All codecs, including extension codecs, MUST go through the same limiter, ratio meter and input meter. No codec has a private path around them.
-- **SG-R-CDC-02** gzip (RFC 1952): multiple concatenated members are decoded and share one budget. Reserved flag bits set, a wrong header CRC (FHCRC), a FNAME or FCOMMENT longer than 4096 bytes, bytes after a complete member that do not start a valid member header (including zero padding), and a CRC32 or ISIZE mismatch at the end of any member are `corrupt`. ISIZE is compared modulo 2^32 and never used as an allowance.
-- **SG-R-CDC-03** deflate in HTTP means zlib format (RFC 1950 wrapping RFC 1951). The Adler-32 is verified; a preset dictionary (FDICT) is `corrupt`; bytes after the end of the zlib stream are `corrupt`. A stream that is not valid zlib is `corrupt`; it is not retried as raw deflate unless raw deflate was explicitly enabled by an option. With the option, a stream is treated as zlib iff its first two bytes form a valid zlib header (CM=8, CINFO ≤ 7, header checksum multiple of 31, FDICT clear), otherwise as raw deflate. (Option default is provisional, see planning O9.)
-- **SG-R-CDC-04** brotli (RFC 7932): window sizes above the configured memory cap, which defaults to lgwin 24 (16 MiB), and any large-window brotli stream are `memory_limit` unless the caller raised the cap explicitly. Bytes after the last meta-block are `corrupt`.
-- **SG-R-CDC-05** zstd (RFC 8878): a frame whose window size exceeds the configured cap, default 8 MiB (to be verified against RFC 9659), is `memory_limit`. A frame needing a dictionary is `corrupt`. Concatenated frames and skippable frames are allowed; skippable frames count as consumed input only. A present content checksum is verified. A declared frame content size that differs from the produced size is `corrupt`. Trailing bytes that are not a valid frame start are `corrupt`.
+- **SG-R-CDC-02** gzip (RFC 1952): multiple concatenated members are decoded and share one budget. The following are `corrupt`: a member that does not start with the bytes 0x1f 0x8b 0x08; reserved flag bits set (RFC 1952 requires an error); a wrong header CRC (FHCRC); a FNAME or FCOMMENT that is not terminated within 512 bytes including the terminator (RFC 1952 sets no limit; this bound is deliberate and equals the Go standard library's); a CRC32 or ISIZE mismatch at the end of any member; and any bytes after a complete member that do not start a valid member, including zero padding. ISIZE is compared modulo 2^32 and never used as an allowance. A truncated member is `corrupt` (SG-R-CDC-06).
+- **SG-R-CDC-03** deflate in HTTP means the zlib format (RFC 1950 wrapping RFC 1951), per RFC 9110 section 8.4.1.2, which also notes that some senders omit the wrapper. Detection: if the first two bytes form a valid zlib header (CM = 8, CINFO ≤ 7, CMF×256+FLG a multiple of 31) the stream is zlib, otherwise it is raw deflate. A zlib stream with FDICT set is `corrupt` (it is not retried as raw). For zlib the Adler-32 is verified and bytes after it are `corrupt`; for raw deflate bytes after the final block are `corrupt`. A raw stream that happens to begin with a valid-looking zlib header is therefore treated as zlib and fails with `corrupt`; it is never misread as data. An option `strict_zlib` disables the raw fallback; without a valid zlib header the stream is then `corrupt`.
+- **SG-R-CDC-04** brotli (RFC 7932): the format allows window sizes up to 2^24-16 bytes (WBITS 24); that is the default cap. Any stream needing a larger window (large-window brotli is not part of the RFC) is `memory_limit` unless the caller raised the cap. Bytes after the last meta-block are `corrupt` (the RFC is silent; fail closed).
+- **SG-R-CDC-05** zstd (RFC 8878, RFC 9659): the default window cap is 8 MiB (8388608 bytes), which is at least the 8 MB that RFC 9659 requires decoders to support. A frame whose window size exceeds the cap is `memory_limit`; for single-segment frames the window size equals the declared content size, so the cap applies to it as well. A frame that needs a dictionary (non-zero Dictionary_ID) is `corrupt`. Concatenated frames and skippable frames are allowed; skippable frames count as consumed input only. A present content checksum is verified. A declared content size that contradicts the produced size SHOULD be reported as `corrupt`; vectors do not depend on this because produced bytes are always counted. Trailing bytes that are not a valid frame start are `corrupt`.
 - **SG-R-CDC-06** A stream that ends before its end marker or trailer is `corrupt`, never a clean end, for every codec.
 - **SG-R-CDC-07** Declared sizes (gzip ISIZE, zstd frame content size, any length field in any header) MUST NOT be used for any decision, early rejection, or allowance, and MUST NOT size an allocation. The single exception is the decoder window of SG-R-CDC-04 and SG-R-CDC-05, which is a memory declaration and is checked against the cap.
 - **SG-R-CDC-08** A codec that panics, throws unexpectedly, violates its read contract, or returns more bytes than requested ends the stream with `internal`. The failure MUST NOT escape the library as a crash of the host.
@@ -114,7 +114,7 @@ Evaluation order is normative and decides the outcome class when several faults 
 
 ## 10. Memory
 
-- **SG-R-MEM-01** No allocation may be sized from an untrusted value (declared sizes, header values, lengths in streams), except decoder windows within their caps.
+- **SG-R-MEM-01** No allocation may be sized from an untrusted value (declared sizes, header values, lengths in streams) beyond a fixed bound of 64 KiB per value, except decoder windows within their caps. (The gzip extra field, at most 65535 bytes by format, is the one case that needs the allowance.)
 - **SG-R-MEM-02** Apart from codec windows within their caps, memory use is bounded by a fixed constant (documented per binding, at most 4 MiB per layer) plus, for whole-body functions, the bytes produced so far. Whole-body functions grow their buffer incrementally and never preallocate from MaxOutput.
 - **SG-R-MEM-03** Each binding documents the peak memory bound per codec and per layer, and tests it (resource tests).
 
@@ -141,6 +141,13 @@ Each invariant MUST have at least three independent checks (unit test, conforman
 - **SG-I-09** Results do not depend on read sizes or source chunking (SG-R-RDR-01).
 - **SG-I-10** Nothing outlives Close: no worker, handle or retained buffer (SG-R-RDR-06).
 
-## 13. Conformance
+## 13. Appendix A: verification log and deliberate deviations
+
+Verified against the primary texts on 2026-11-06 (unless marked): RFC 1950 (CM, CINFO, FCHECK, FDICT, Adler-32), RFC 1952 (magic, CM = 8, reserved flags MUST error, no length limit on FNAME/FCOMMENT, no statement about trailing data, ISIZE modulo 2^32), RFC 7932 section 2 (WBITS 10..24, window 2^WBITS-16; no statement about bytes after the stream), RFC 9659 section 3 (decoders MUST support Window_Size up to 8 MB, encoders MUST NOT exceed it, oversized frames are to be rejected), RFC 8878 (window formula, single-segment window equals content size, Frame_Content_Size optional, Dictionary_ID, checksum), RFC 9110 sections 8.4 and 8.4.1 (list grammar `#content-coding`, tokens carry no parameters, deflate is zlib-wrapped, `x-gzip` equivalent to gzip, order of application, identity discouraged) and the Go 1.26.1 standard library (`compress/gzip` ends names at 512 bytes and ignores reserved flag bits).
+Verified from a summary only, to be re-read when the tests are written: RFC 9110 section 5.6.1.2 (empty list elements), RFC 8878 skippable-frame magic range 0x184D2A50..0x184D2A5F.
+
+Deliberate deviations from the RFCs (all fail closed): bytes after a gzip member, zlib stream, brotli stream or zstd frame sequence are errors; gzip names and comments are bounded to 512 bytes; header tokens are restricted to a stricter alphabet than RFC 9110 `token`; the zstd window cap is 8 MiB.
+
+## 14. Conformance
 
 An implementation conforms if it passes every vector of the released conformance corpus for the codecs it supports and has tests for every rule that vectors cannot express (header error text, resource bounds, close behavior). Vectors compare outcome class, delivered length and SHA-256 of delivered bytes; error texts are not compared. See `conformance/SCHEMA.md`.
