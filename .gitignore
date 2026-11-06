@@ -1,0 +1,21 @@
+# build and test output
+*.test
+*.out
+*.prof
+coverage.*
+/bin/
+/dist/
+
+# fuzz crashers are triaged by hand and promoted to conformance vectors
+testdata/fuzz/**/.tmp*
+
+# editors and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# local scratch
+/tmp/
+*.local
