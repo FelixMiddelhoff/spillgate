@@ -77,9 +77,12 @@ func drain(r io.Reader, readSize int) (delivered int64, err error) {
 
 // drainPattern is like drain but cycles through the given read sizes.
 func drainPattern(r io.Reader, sizes []int) (delivered int64, err error) {
+	buffers := make([][]byte, len(sizes)) // one buffer per size, reused
+	for i, size := range sizes {
+		buffers[i] = make([]byte, size)
+	}
 	for i := 0; ; i++ {
-		buf := make([]byte, sizes[i%len(sizes)])
-		n, err := r.Read(buf)
+		n, err := r.Read(buffers[i%len(buffers)])
 		delivered += int64(n)
 		if err != nil {
 			return delivered, err
