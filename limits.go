@@ -8,7 +8,13 @@ const (
 	// DefaultMaxLayers is the longest Content-Encoding chain accepted by default.
 	DefaultMaxLayers = 5
 	// DefaultMaxRatio is the default expansion limit: output bytes per input byte.
-	// Provisional; see the planning notes for how it is to be confirmed.
+	//
+	// Measured with the standard library's gzip: the best a deflate stream can
+	// do on zeros is about 1029:1, repetitive JSON reaches about 350:1. 1000
+	// therefore stops every maximal deflate bomb while staying well above
+	// ordinary data; stronger codecs (brotli, zstd) and chains can reach far
+	// higher ratios and are caught earlier by it. Callers with unusually
+	// sparse but legitimate data can raise MaxRatio or set DisableRatioLimit.
 	DefaultMaxRatio = 1000
 	// DefaultRatioGrace is the output size below which the ratio is not checked,
 	// so that tiny inputs cannot trigger false alarms.

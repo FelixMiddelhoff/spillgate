@@ -1,6 +1,7 @@
 package spillgate
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"maps"
@@ -102,6 +103,21 @@ func NewDecoder(limits Limits, opts ...Option) (*Decoder, error) {
 // Reading may deliver bytes and then fail. Treat any error as failure of the
 // whole body. Close the reader when done; this does not close src.
 func (d *Decoder) Reader(src io.Reader, encodings ...string) (io.ReadCloser, error) {
+	return d.ReaderContext(context.Background(), src, encodings...)
+}
+
+// ReaderContext is Reader with cancellation. Once ctx ends, the next Read
+// fails with KindCanceled (errors.Is(err, ErrCanceled), and the context's own
+// error stays reachable). The context is checked on every Read and every
+// 4 KiB taken from the source (SG-R-API-04).
+//
+// Cancellation cannot interrupt a Read of the source that is already blocked,
+// nor a single step inside a codec; the output, ratio and input limits are
+// what bound the work.
+func (d *Decoder) ReaderContext(ctx context.Context, src io.Reader, encodings ...string) (io.ReadCloser, error) {
+	if ctx == nil {
+		return nil, fmt.Errorf("%w: nil context", ErrInvalidOption)
+	}
 	if src == nil {
 		return nil, ErrNilSource
 	}
@@ -109,14 +125,19 @@ func (d *Decoder) Reader(src io.Reader, encodings ...string) (io.ReadCloser, err
 	if err != nil {
 		return nil, err
 	}
-	return d.buildChain(src, layers)
+	return d.buildChain(ctx, src, layers)
 }
 
 // ReadAll decodes src completely and returns the whole body, or an error and
 // no data at all (SG-R-API-02). Memory grows with the bytes actually produced,
 // never from declared sizes (SG-R-MEM-02).
 func (d *Decoder) ReadAll(src io.Reader, encodings ...string) ([]byte, error) {
-	r, err := d.Reader(src, encodings...)
+	return d.ReadAllContext(context.Background(), src, encodings...)
+}
+
+// ReadAllContext is ReadAll with cancellation; see ReaderContext.
+func (d *Decoder) ReadAllContext(ctx context.Context, src io.Reader, encodings ...string) ([]byte, error) {
+	r, err := d.ReaderContext(ctx, src, encodings...)
 	if err != nil {
 		return nil, err
 	}
@@ -157,7 +178,7 @@ func (d *Decoder) supports(name string) bool {
 // the source; every further layer reads the guarded output of the one before.
 // Without any codec (empty or identity-only header) a single identity layer
 // still bounds the body (SG-R-CDC-10).
-func (d *Decoder) buildChain(src io.Reader, layers []string) (io.ReadCloser, error) {
+func (d *Decoder) buildChain(ctx context.Context, src io.Reader, layers []string) (io.ReadCloser, error) {
 	chain := &chainReader{limits: d.limits}
 	current := src
 
@@ -168,6 +189,7 @@ func (d *Decoder) buildChain(src io.Reader, layers []string) (io.ReadCloser, err
 			maxInput = d.maxInput // the cap applies to the chain's source only
 		}
 		meter := newInputMeter(current, maxInput, index)
+		meter.ctx = ctx
 		if index == 1 {
 			chain.source = meter
 		}
@@ -185,6 +207,7 @@ func (d *Decoder) buildChain(src io.Reader, layers []string) (io.ReadCloser, err
 		}
 
 		guard := newLayerGuard(codec, meter, index, d.limits)
+		guard.ctx = ctx
 		chain.top = guard
 		current = guard
 	}

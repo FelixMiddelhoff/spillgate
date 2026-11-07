@@ -1,6 +1,7 @@
 package spillgate
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -22,9 +23,22 @@ type layerGuard struct {
 	input  *inputMeter // the decoder's input, for consumption and source errors
 	layer  int         // 1-based layer index, for error reporting
 	limits effectiveLimits
+	ctx    context.Context // optional; nil means the reader is never canceled
 
 	produced int64 // bytes the codec has produced and the guard has accounted for
 	done     error // sticky terminal condition: io.EOF or an error
+}
+
+// canceledError returns a KindCanceled error if ctx has ended, else nil. The
+// context's own error stays reachable through errors.Is (SG-R-API-04).
+func canceledError(ctx context.Context, layer int) error {
+	if ctx == nil {
+		return nil
+	}
+	if err := ctx.Err(); err != nil {
+		return &Error{Kind: KindCanceled, Layer: layer, Cause: err}
+	}
+	return nil
 }
 
 // newLayerGuard guards codec, which reads its compressed bytes from input.
@@ -40,6 +54,10 @@ func (g *layerGuard) Read(p []byte) (int, error) {
 	}
 	if len(p) == 0 {
 		return 0, nil // SG-R-RDR-02: no state change
+	}
+	if err := canceledError(g.ctx, g.layer); err != nil {
+		g.done = err
+		return 0, err
 	}
 	remaining := g.limits.maxOutput - g.produced
 	if remaining == 0 {

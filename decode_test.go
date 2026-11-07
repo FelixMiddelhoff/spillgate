@@ -175,7 +175,7 @@ func TestACodecThatCannotBeCreatedIsAnInternalError(t *testing.T) {
 	}
 }
 
-// Covers: SG-R-CDC-09
+// Covers: SG-R-CDC-09 SG-R-LIM-06
 func TestCodecRegistrationRules(t *testing.T) {
 	limits := Limits{MaxOutput: 1}
 	tests := []struct {
@@ -435,7 +435,7 @@ func TestDecodeAllReturnsNoPartialData(t *testing.T) {
 
 // Covers: SG-R-LAY-05 SG-R-LAY-09 SG-I-03
 func TestRealBombStopsEarlyAndStaysStopped(t *testing.T) {
-	stream := zerosGzip(t, 256<<20) // about 250 KiB, 256 MiB when decoded
+	stream := bombGzip256(t) // about 250 KiB, 256 MiB when decoded
 	counter := &readCounter{r: bytes.NewReader(stream)}
 
 	r, err := Decode(counter, []string{"gzip"}, Limits{MaxOutput: 1 << 20, DisableRatioLimit: true})
@@ -488,7 +488,7 @@ func TestNestedBombIsStopped(t *testing.T) {
 // best deflate can do is about 1032:1 and the default is 1000).
 // Covers: SG-R-RAT-01 SG-I-02
 func TestDefaultLimitsStopAMaximalGzipBomb(t *testing.T) {
-	stream := zerosGzip(t, 256<<20)
+	stream := bombGzip256(t)
 	_, err := DecodeAll(bytes.NewReader(stream), []string{"gzip"}, Limits{MaxOutput: 1 << 30})
 	if !errors.Is(err, ErrRatioLimit) {
 		t.Fatalf("got %v", err)

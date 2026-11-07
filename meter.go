@@ -1,6 +1,7 @@
 package spillgate
 
 import (
+	"context"
 	"io"
 )
 
@@ -26,8 +27,9 @@ const (
 // It is not safe for concurrent use.
 type inputMeter struct {
 	src      io.Reader
-	maxInput int64 // 0 means no cap
-	layer    int   // layer this meter feeds, for error reporting
+	maxInput int64           // 0 means no cap
+	layer    int             // layer this meter feeds, for error reporting
+	ctx      context.Context // optional; nil means never canceled. Checked on every refill (4 KiB), well within SG-R-API-04
 
 	buf        [meterBufferSize]byte
 	start, end int // buf[start:end] holds fetched but not yet consumed bytes
@@ -108,6 +110,10 @@ func (m *inputMeter) fill() error {
 	}
 	if m.srcEOF {
 		return io.EOF
+	}
+	if err := canceledError(m.ctx, m.layer); err != nil {
+		m.failed = err
+		return err
 	}
 	want := m.fetchSize()
 	if want < 1 {

@@ -8,6 +8,7 @@ import (
 	"encoding/binary"
 	"hash/crc32"
 	"io"
+	"sync"
 	"testing"
 )
 
@@ -102,6 +103,19 @@ func sampleData(n int) []byte {
 		out[i] = byte((i*31)>>3) ^ byte(i/251)
 	}
 	return out
+}
+
+var (
+	bombOnce sync.Once
+	bombData []byte
+)
+
+// bombGzip256 returns a gzip stream that decodes to 256 MiB of zeros (about
+// 250 KiB long). It is built once per test run because compressing takes a
+// moment.
+func bombGzip256(t testing.TB) []byte {
+	bombOnce.Do(func() { bombData = zerosGzip(t, 256<<20) })
+	return bombData
 }
 
 // zerosGzip compresses n zero bytes into a gzip stream without holding the
