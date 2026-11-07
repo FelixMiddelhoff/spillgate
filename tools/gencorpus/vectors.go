@@ -791,7 +791,7 @@ func defineLimitValues(b *builder) {
 	invalid("MaxLayers 17 is above the hard maximum", "SG-R-LIM-03", with(generous, "max_layers", 17))
 	invalid("negative MaxLayers", "SG-R-LIM-03", with(generous, "max_layers", -1))
 	invalid("negative MaxRatio", "SG-R-LIM-04", map[string]any{"max_output": 1000, "max_ratio": -1})
-	invalid("MaxRatio above 2^31-1", "SG-R-LIM-04", map[string]any{"max_output": 1000, "max_ratio": 2147483648})
+	invalid("MaxRatio above 2^31-1", "SG-R-LIM-04", map[string]any{"max_output": 1000, "max_ratio": int64(2147483648)})
 	invalid("MaxInput of zero is invalid, not unlimited", "SG-R-LIM-06", with(generous, "max_input", 0))
 
 	valid := func(desc string, rules []string, limits map[string]any, stream []byte, want []byte) {
