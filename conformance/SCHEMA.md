@@ -40,7 +40,7 @@ conformance/
 | `encodings` | string[] | yes | Content-Encoding field values as received (may be empty). |
 | `input` | object | yes | See below. |
 | `limits` | object | yes | See below. |
-| `read_pattern` | int[] | no | Read sizes in bytes, applied cyclically. Default `[4096]`. `[1]` = byte at a time. A value of `-1` means "a buffer larger than MaxOutput+1 (capped at 2^31-1)". |
+| `read_pattern` | int[] | no | Read sizes in bytes, applied cyclically. Default `[4096]`. `[1]` = byte at a time. A value of `-1` means "a buffer of MaxOutput+1 bytes, capped at 32 MiB". |
 | `options` | object | no | `strict_zlib` (bool, disables the raw-deflate fallback of SG-R-CDC-03), `memory_cap` (bytes, window cap for br and zstd). |
 | `expect` | object | yes | See below. |
 
@@ -70,6 +70,10 @@ Error:
 - `phase`: `construct` (error before any read: `invalid_limits`, `malformed_encoding`, `unsupported_encoding`, `layer_limit` from the header) or `read`.
 - `delivered_at_most` (read phase): upper bound of bytes delivered before the error; MUST NOT exceed `max_output`. Optional `delivered_exactly` where the spec pins it.
 - `layer` (optional): 1-based layer index that failed.
+
+## Generators
+
+Inputs described by a generator are built by the construction in `spec/generators.md`, without any compression library, so every language can reproduce them byte for byte. The manifest hash of a generated input detects a deviation. A vector with a generator may have tier `small` (cheap to build) or `large`.
 
 ## Runner contract
 

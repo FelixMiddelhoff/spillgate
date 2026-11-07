@@ -243,6 +243,19 @@ func TestEndToEndRatioAcrossLayers(t *testing.T) {
 	}
 }
 
+// The chain's end-to-end check must not replace the more specific error a
+// layer has already reported.
+// Covers: SG-R-RAT-01 SG-R-RAT-03
+func TestLayerRatioErrorKeepsItsLayer(t *testing.T) {
+	d, _ := NewDecoder(Limits{MaxOutput: 1 << 20, MaxRatio: 10, RatioGrace: 1}, WithCodec("x11", repeatCodec(11)))
+	_, err := d.ReadAll(bytes.NewReader(bytes.Repeat([]byte("a"), 100)), "x11")
+
+	var e *Error
+	if !errors.As(err, &e) || e.Kind != KindRatioLimit || e.Layer != 1 {
+		t.Fatalf("got %v, want the ratio error of layer 1", err)
+	}
+}
+
 // Covers: SG-R-RAT-01
 func TestRatioBoundaryWithAFakeCodec(t *testing.T) {
 	input := bytes.Repeat([]byte("a"), 1000)

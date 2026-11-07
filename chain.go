@@ -31,7 +31,10 @@ func (c *chainReader) Read(p []byte) (int, error) {
 	n, err := c.top.Read(p)
 	c.produced += int64(n)
 
-	if n > 0 && c.limits.ratioExceeded(c.produced, c.source.Consumed()) {
+	// A layer that already failed has reported its own, more specific error.
+	// The end-to-end check only judges streams that are still fine or just ended.
+	layerFailed := err != nil && !errors.Is(err, io.EOF)
+	if n > 0 && !layerFailed && c.limits.ratioExceeded(c.produced, c.source.Consumed()) {
 		c.done = &Error{Kind: KindRatioLimit, Limit: c.limits.maxRatio,
 			Cause: errors.New("end-to-end expansion over the whole chain")}
 		return n, c.done
