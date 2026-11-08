@@ -35,6 +35,15 @@ func (w *bitWriter) code(code uint64, n uint) {
 	w.bits(reversed, n)
 }
 
+// alignToByte pads the current byte with zero bits, so the next write starts
+// on a byte boundary (as brotli requires before raw bytes).
+func (w *bitWriter) alignToByte() {
+	if w.count > 0 {
+		w.out = append(w.out, byte(w.acc))
+		w.acc, w.count = 0, 0
+	}
+}
+
 // finish pads the last byte with zero bits and returns everything written.
 func (w *bitWriter) finish() []byte {
 	if w.count > 0 {

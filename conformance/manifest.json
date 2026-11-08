@@ -990,6 +990,502 @@
       }
     },
     {
+      "id": "SG-V-BND-0029",
+      "description": "brotli zeros stream of 2122 bytes with MaxOutput 2121",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "br",
+            "size": 2122,
+            "window": 16
+          }
+        },
+        "sha256": "05b9c8b1966777c48c3c943e7a90c1e71c56e6b6fe8f878bb003849026b225d9"
+      },
+      "limits": {
+        "max_output": 2121,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "output_limit",
+        "phase": "read",
+        "delivered_exactly": 2121,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-BND-0030",
+      "description": "brotli zeros stream of 2122 bytes with MaxOutput 2122",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "br",
+            "size": 2122,
+            "window": 16
+          }
+        },
+        "sha256": "05b9c8b1966777c48c3c943e7a90c1e71c56e6b6fe8f878bb003849026b225d9"
+      },
+      "limits": {
+        "max_output": 2122,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 2122,
+        "sha256": "b1644d61b258f405a7ab719221e1227618075134ce3fee79a836441931c4e9d3"
+      }
+    },
+    {
+      "id": "SG-V-BND-0031",
+      "description": "brotli zeros stream of 2122 bytes with MaxOutput 2123",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "br",
+            "size": 2122,
+            "window": 16
+          }
+        },
+        "sha256": "05b9c8b1966777c48c3c943e7a90c1e71c56e6b6fe8f878bb003849026b225d9"
+      },
+      "limits": {
+        "max_output": 2123,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 2122,
+        "sha256": "b1644d61b258f405a7ab719221e1227618075134ce3fee79a836441931c4e9d3"
+      }
+    },
+    {
+      "id": "SG-V-BND-0032",
+      "description": "brotli zeros stream of 25801 bytes with MaxOutput 25800",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "br",
+            "size": 25801,
+            "window": 16
+          }
+        },
+        "sha256": "2769a2090b234336419044f8ca5658bbecb7a2aa082a2a133aacb7b15e1e417f"
+      },
+      "limits": {
+        "max_output": 25800,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "output_limit",
+        "phase": "read",
+        "delivered_exactly": 25800,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-BND-0033",
+      "description": "brotli zeros stream of 25801 bytes with MaxOutput 25801",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "br",
+            "size": 25801,
+            "window": 16
+          }
+        },
+        "sha256": "2769a2090b234336419044f8ca5658bbecb7a2aa082a2a133aacb7b15e1e417f"
+      },
+      "limits": {
+        "max_output": 25801,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 25801,
+        "sha256": "6a1930dc547fcd4a9aed7a1a9ec0865764825f882eb7883be766ffb895ae8e78"
+      }
+    },
+    {
+      "id": "SG-V-BND-0034",
+      "description": "brotli zeros stream of 25801 bytes with MaxOutput 25802",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "br",
+            "size": 25801,
+            "window": 16
+          }
+        },
+        "sha256": "2769a2090b234336419044f8ca5658bbecb7a2aa082a2a133aacb7b15e1e417f"
+      },
+      "limits": {
+        "max_output": 25802,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 25801,
+        "sha256": "6a1930dc547fcd4a9aed7a1a9ec0865764825f882eb7883be766ffb895ae8e78"
+      }
+    },
+    {
+      "id": "SG-V-BND-0035",
+      "description": "zstd zeros stream of 2 bytes with MaxOutput 1",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "zstd",
+            "size": 2,
+            "window": 17
+          }
+        },
+        "sha256": "337167bf17721595b29fe6172b3b4ea23a0ebaca3d3bcb4e01291a8b47e30306"
+      },
+      "limits": {
+        "max_output": 1,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "output_limit",
+        "phase": "read",
+        "delivered_exactly": 1,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-BND-0036",
+      "description": "zstd zeros stream of 2 bytes with MaxOutput 2",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "zstd",
+            "size": 2,
+            "window": 17
+          }
+        },
+        "sha256": "337167bf17721595b29fe6172b3b4ea23a0ebaca3d3bcb4e01291a8b47e30306"
+      },
+      "limits": {
+        "max_output": 2,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 2,
+        "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+      }
+    },
+    {
+      "id": "SG-V-BND-0037",
+      "description": "zstd zeros stream of 2 bytes with MaxOutput 3",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "zstd",
+            "size": 2,
+            "window": 17
+          }
+        },
+        "sha256": "337167bf17721595b29fe6172b3b4ea23a0ebaca3d3bcb4e01291a8b47e30306"
+      },
+      "limits": {
+        "max_output": 3,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 2,
+        "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+      }
+    },
+    {
+      "id": "SG-V-BND-0038",
+      "description": "zstd zeros stream of 25801 bytes with MaxOutput 25800",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "zstd",
+            "size": 25801,
+            "window": 17
+          }
+        },
+        "sha256": "bb49608719755466301602fe6d347992d0c04db59938feb1c7fb8b38d3af5a46"
+      },
+      "limits": {
+        "max_output": 25800,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "output_limit",
+        "phase": "read",
+        "delivered_exactly": 25800,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-BND-0039",
+      "description": "zstd zeros stream of 25801 bytes with MaxOutput 25801",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "zstd",
+            "size": 25801,
+            "window": 17
+          }
+        },
+        "sha256": "bb49608719755466301602fe6d347992d0c04db59938feb1c7fb8b38d3af5a46"
+      },
+      "limits": {
+        "max_output": 25801,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 25801,
+        "sha256": "6a1930dc547fcd4a9aed7a1a9ec0865764825f882eb7883be766ffb895ae8e78"
+      }
+    },
+    {
+      "id": "SG-V-BND-0040",
+      "description": "zstd zeros stream of 25801 bytes with MaxOutput 25802",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-I-01",
+        "SG-I-02",
+        "SG-I-09"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "zstd",
+            "size": 25801,
+            "window": 17
+          }
+        },
+        "sha256": "bb49608719755466301602fe6d347992d0c04db59938feb1c7fb8b38d3af5a46"
+      },
+      "limits": {
+        "max_output": 25802,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 25801,
+        "sha256": "6a1930dc547fcd4a9aed7a1a9ec0865764825f882eb7883be766ffb895ae8e78"
+      }
+    },
+    {
       "id": "SG-V-BOMB-0001",
       "description": "gzip bomb of about 1 GiB against a 1 MiB output limit stops at the limit with a typed error",
       "rules": [
@@ -1449,6 +1945,172 @@
         "phase": "read",
         "delivered_exactly": 1048576,
         "layer": 2
+      }
+    },
+    {
+      "id": "SG-V-BOMB-0013",
+      "description": "brotli bomb of 1 GiB in under a kilobyte (ratio above 1,000,000:1) against a 1 MiB output limit",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-R-CDC-01",
+        "SG-I-01",
+        "SG-I-02"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "bomb"
+      ],
+      "tier": "large",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "br",
+            "size": 1073741824,
+            "window": 24
+          }
+        },
+        "sha256": "8b74d70d688e26ac705a0f94931fbcfe51741abc78cda5ff6eb2857b3464011b"
+      },
+      "limits": {
+        "max_output": 1048576,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "output_limit",
+        "phase": "read",
+        "delivered_exactly": 1048576,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-BOMB-0014",
+      "description": "the same brotli bomb against MaxRatio 100: a ratio error, far from the threshold",
+      "rules": [
+        "SG-R-RAT-01",
+        "SG-R-RAT-05",
+        "SG-I-02"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "bomb",
+        "ratio"
+      ],
+      "tier": "large",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "br",
+            "size": 1073741824,
+            "window": 24
+          }
+        },
+        "sha256": "8b74d70d688e26ac705a0f94931fbcfe51741abc78cda5ff6eb2857b3464011b"
+      },
+      "limits": {
+        "max_output": 4194304,
+        "max_ratio": 100,
+        "ratio_grace": 1
+      },
+      "expect": {
+        "outcome": "ratio_limit",
+        "phase": "read",
+        "delivered_at_most": 4194304,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-BOMB-0015",
+      "description": "zstd bomb of 1 GiB in 32 KiB (ratio 32768:1) against a 1 MiB output limit",
+      "rules": [
+        "SG-R-LAY-02",
+        "SG-R-LAY-03",
+        "SG-R-LAY-04",
+        "SG-R-CDC-01",
+        "SG-I-01",
+        "SG-I-02"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "bomb"
+      ],
+      "tier": "large",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "zstd",
+            "size": 1073741824,
+            "window": 23
+          }
+        },
+        "sha256": "307e7b01efe2d1a936c60a2da6fd80b6f20f04030ff13c5d12ec411d3371b280"
+      },
+      "limits": {
+        "max_output": 1048576,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "output_limit",
+        "phase": "read",
+        "delivered_exactly": 1048576,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-BOMB-0016",
+      "description": "the same zstd bomb against MaxRatio 100: a ratio error, far from the threshold",
+      "rules": [
+        "SG-R-RAT-01",
+        "SG-R-RAT-05",
+        "SG-I-02"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "bomb",
+        "ratio"
+      ],
+      "tier": "large",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "zstd",
+            "size": 1073741824,
+            "window": 23
+          }
+        },
+        "sha256": "307e7b01efe2d1a936c60a2da6fd80b6f20f04030ff13c5d12ec411d3371b280"
+      },
+      "limits": {
+        "max_output": 4194304,
+        "max_ratio": 100,
+        "ratio_grace": 1
+      },
+      "expect": {
+        "outcome": "ratio_limit",
+        "phase": "read",
+        "delivered_at_most": 4194304,
+        "layer": 1
       }
     },
     {
@@ -1979,6 +2641,126 @@
         "phase": "read",
         "delivered_at_most": 1005,
         "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-CHAIN-0013",
+      "description": "brotli applied first, then gzip",
+      "rules": [
+        "SG-R-HDR-12",
+        "SG-R-CDC-01"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "chain"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br, gzip"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-CHAIN-0013.bin",
+        "sha256": "7d26b5858c46e1c51db2af8eb7a5f1ef0179d3f85121fb2c491f7501b2e2c89e"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-CHAIN-0014",
+      "description": "gzip applied first, then brotli",
+      "rules": [
+        "SG-R-HDR-12",
+        "SG-R-CDC-01"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "chain"
+      ],
+      "tier": "small",
+      "encodings": [
+        "gzip, br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-CHAIN-0014.bin",
+        "sha256": "d0e36e89723c382b18fff6ff6189940dbd4322e4a238fcf94ab0f4f8061a0cdd"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-CHAIN-0015",
+      "description": "zstd applied first, then gzip",
+      "rules": [
+        "SG-R-HDR-12",
+        "SG-R-CDC-01"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "chain"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd, gzip"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-CHAIN-0015.bin",
+        "sha256": "eb64c0aabaedd024938675f00a7760b168742c6d004a13daca35dabb0840fd52"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-CHAIN-0016",
+      "description": "gzip applied first, then zstd",
+      "rules": [
+        "SG-R-HDR-12",
+        "SG-R-CDC-01"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "chain"
+      ],
+      "tier": "small",
+      "encodings": [
+        "gzip, zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-CHAIN-0016.bin",
+        "sha256": "83ebdabb89fb14b3531e35f22bf476721a7ecf9ea9728a1819adb4ef555834e6"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
       }
     },
     {
@@ -4352,6 +5134,254 @@
       "expect": {
         "outcome": "layer_limit",
         "phase": "construct"
+      }
+    },
+    {
+      "id": "SG-V-HDR-0085",
+      "description": "accepted header with the optional codec: \"br\"",
+      "rules": [
+        "SG-R-HDR-05",
+        "SG-R-HDR-08",
+        "SG-R-HDR-14"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "header"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-HDR-0085.bin",
+        "sha256": "118391f17b6e18fd9ad5d2ec1315d087445b64eb40443300a90b2314a0c330e7"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-HDR-0086",
+      "description": "accepted header with the optional codec: \"BR\"",
+      "rules": [
+        "SG-R-HDR-05",
+        "SG-R-HDR-08",
+        "SG-R-HDR-14"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "header"
+      ],
+      "tier": "small",
+      "encodings": [
+        "BR"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-HDR-0086.bin",
+        "sha256": "118391f17b6e18fd9ad5d2ec1315d087445b64eb40443300a90b2314a0c330e7"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-HDR-0087",
+      "description": "accepted header with the optional codec: \" br \"",
+      "rules": [
+        "SG-R-HDR-05",
+        "SG-R-HDR-08",
+        "SG-R-HDR-14"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "header"
+      ],
+      "tier": "small",
+      "encodings": [
+        " br "
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-HDR-0087.bin",
+        "sha256": "118391f17b6e18fd9ad5d2ec1315d087445b64eb40443300a90b2314a0c330e7"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-HDR-0088",
+      "description": "accepted header with the optional codec: \"br,\"",
+      "rules": [
+        "SG-R-HDR-05",
+        "SG-R-HDR-08",
+        "SG-R-HDR-14"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "header"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br,"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-HDR-0088.bin",
+        "sha256": "118391f17b6e18fd9ad5d2ec1315d087445b64eb40443300a90b2314a0c330e7"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-HDR-0089",
+      "description": "accepted header with the optional codec: \"zstd\"",
+      "rules": [
+        "SG-R-HDR-05",
+        "SG-R-HDR-08",
+        "SG-R-HDR-14"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "header"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-HDR-0089.bin",
+        "sha256": "a6fdda266d1aaae28273f70fd7de9d8ff8f6580ef5ae2a26d1f9998681460299"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-HDR-0090",
+      "description": "accepted header with the optional codec: \"ZSTD\"",
+      "rules": [
+        "SG-R-HDR-05",
+        "SG-R-HDR-08",
+        "SG-R-HDR-14"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "header"
+      ],
+      "tier": "small",
+      "encodings": [
+        "ZSTD"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-HDR-0090.bin",
+        "sha256": "a6fdda266d1aaae28273f70fd7de9d8ff8f6580ef5ae2a26d1f9998681460299"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-HDR-0091",
+      "description": "accepted header with the optional codec: \" zstd \"",
+      "rules": [
+        "SG-R-HDR-05",
+        "SG-R-HDR-08",
+        "SG-R-HDR-14"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "header"
+      ],
+      "tier": "small",
+      "encodings": [
+        " zstd "
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-HDR-0091.bin",
+        "sha256": "a6fdda266d1aaae28273f70fd7de9d8ff8f6580ef5ae2a26d1f9998681460299"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-HDR-0092",
+      "description": "accepted header with the optional codec: \",zstd\"",
+      "rules": [
+        "SG-R-HDR-05",
+        "SG-R-HDR-08",
+        "SG-R-HDR-14"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "header"
+      ],
+      "tier": "small",
+      "encodings": [
+        ",zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-HDR-0092.bin",
+        "sha256": "a6fdda266d1aaae28273f70fd7de9d8ff8f6580ef5ae2a26d1f9998681460299"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
       }
     },
     {
@@ -7427,6 +8457,899 @@
       }
     },
     {
+      "id": "SG-V-MAL-0072",
+      "description": "brotli stream truncated to 0 of 104 bytes",
+      "rules": [
+        "SG-R-CDC-06",
+        "SG-I-05"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0072.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0073",
+      "description": "brotli stream truncated to 1 of 104 bytes",
+      "rules": [
+        "SG-R-CDC-06",
+        "SG-I-05"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0073.bin",
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0074",
+      "description": "brotli stream truncated to 2 of 104 bytes",
+      "rules": [
+        "SG-R-CDC-06",
+        "SG-I-05"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0074.bin",
+        "sha256": "b15a78c34263ace4378303a46c5f5f6feb865c6bc1e96e7537203cd9de1c7b9c"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0075",
+      "description": "brotli stream truncated to 52 of 104 bytes",
+      "rules": [
+        "SG-R-CDC-06",
+        "SG-I-05"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0075.bin",
+        "sha256": "d55ec1e158d6653a979b933de5e340c36db42f6cd28be5fbaa7fe7dcb8cf25ae"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0076",
+      "description": "brotli stream truncated to 103 of 104 bytes",
+      "rules": [
+        "SG-R-CDC-06",
+        "SG-I-05"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0076.bin",
+        "sha256": "fca54f4ed3ef33cbdc071213816ee2487714a3728ad2cd5bea526f912376b56c"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0077",
+      "description": "brotli stream followed by one zero byte",
+      "rules": [
+        "SG-R-CDC-04",
+        "SG-I-06"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0077.bin",
+        "sha256": "d24db526a4173bb72033c9b37b3d08aa1ad53efcf3d7af4e72578da0e27ab7db"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0078",
+      "description": "brotli stream followed by 512 zero bytes",
+      "rules": [
+        "SG-R-CDC-04",
+        "SG-I-06"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0078.bin",
+        "sha256": "274142af963b74046ac812a6900930211f22d6f4e68fc78bd9eb1a0858d6387d"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0079",
+      "description": "brotli stream followed by text",
+      "rules": [
+        "SG-R-CDC-04",
+        "SG-I-06"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0079.bin",
+        "sha256": "a159f069c181f9a668a11a2ddb8fff828e05f2c232616aa9d34576b25f3bd46d"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0080",
+      "description": "a frame that needs dictionary 7",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0080.bin",
+        "sha256": "2902e3180ac607293b9b98fcc2d23c0fdda616afbdfb18b6ba436fc3be3ce8fc"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0081",
+      "description": "reserved bit set in the frame header descriptor",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0081.bin",
+        "sha256": "6c859f96558ed9c8f681e8fbb3063c4a3d11775ee27fc154c3cc86604e789ff9"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0082",
+      "description": "reserved block type 3",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0082.bin",
+        "sha256": "f1bb63673da23c7a4855d93836bd1911cd481ad790695a92504a3cbeaee196fe"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0083",
+      "description": "raw block of 128 KiB + 1 bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0083.bin",
+        "sha256": "8db40659feb242e430509d99b088582c9bfa65620332e30dd9cd6fa8acd55a09"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0084",
+      "description": "checksum flag set but the checksum is missing",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0084.bin",
+        "sha256": "ce0e5fb40be588c6d4d8ccf59c15a93980b7f45d599f6c1108a630b8f066dd42"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0085",
+      "description": "zstd frame truncated to 0 of 109 bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0085.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0086",
+      "description": "zstd frame truncated to 1 of 109 bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0086.bin",
+        "sha256": "32ebb1abcc1c601ceb9c4e3c4faba0caa5b85bb98c4f1e6612c40faa528a91c9"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0087",
+      "description": "zstd frame truncated to 3 of 109 bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0087.bin",
+        "sha256": "d3f3e86cb33488c0f75956abfa0610d8f8318527a05b8300eef2156e5280c322"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0088",
+      "description": "zstd frame truncated to 4 of 109 bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0088.bin",
+        "sha256": "1c986dc083de2f3d01811ccf5feba7bbf933659591bf729c687c1177df4cb47d"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0089",
+      "description": "zstd frame truncated to 5 of 109 bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0089.bin",
+        "sha256": "947aafc01fe878b109d358d92d4efb1761b5c8be0b8e8b32431d2e940b3b1768"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0090",
+      "description": "zstd frame truncated to 6 of 109 bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0090.bin",
+        "sha256": "9ccc8552b0dfbcc8b784bdae2492162fe9567a83a8ce0222838b4664ea4f4fcc"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0091",
+      "description": "zstd frame truncated to 7 of 109 bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0091.bin",
+        "sha256": "5e0576bbd917bd5b51623e9e240f180f0c071925681814c304f8df5d79124945"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0092",
+      "description": "zstd frame truncated to 54 of 109 bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0092.bin",
+        "sha256": "77cc113dfa85d71261a9ed658e431264c559aade8f4eaae44cc6e74ae33b6833"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0093",
+      "description": "zstd frame truncated to 108 of 109 bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0093.bin",
+        "sha256": "9b8720c2fbdb6ed77760ccc89130bd4cbef64154515a39a77ab65f619b33195d"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0094",
+      "description": "zstd frame followed by one zero byte",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0094.bin",
+        "sha256": "329688b90033fa4a9fec6623e0111482f2ef2d70cce5545b59c2a2f671c3b532"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0095",
+      "description": "zstd frame followed by 512 zero bytes",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0095.bin",
+        "sha256": "f7d94c561271296a6460c6be60a6350aa81f2c29125d0d49c90a55134e983134"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0096",
+      "description": "zstd frame followed by text",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0096.bin",
+        "sha256": "bb7cd1d7b837e162b96cee7467183e53e8f4d0287507054d357bfc040975de48"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0097",
+      "description": "zstd frame followed by half a magic number",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0097.bin",
+        "sha256": "b2930531f718cfa7b62a018e14033e196546781fe34688738b48903f0c53505a"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0098",
+      "description": "zstd frame followed by a magic number without a header",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0098.bin",
+        "sha256": "5d876e386c5f26ba236e1e3b77665d78510a7087345e3a87a6bbb2682ea3c43d"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0099",
+      "description": "a skippable frame that claims 4 GiB with nothing behind it",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-05",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0099.bin",
+        "sha256": "82710a8d5fafba4aba44dbf5f90f121221109edd60dc84a63c32a9c270c05f9e"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MAL-0100",
+      "description": "empty input for zstd",
+      "rules": [
+        "SG-I-05",
+        "SG-I-06",
+        "SG-R-CDC-06"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "malformed"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MAL-0100.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "corrupt",
+        "phase": "read",
+        "layer": 1
+      }
+    },
+    {
       "id": "SG-V-MULTI-0001",
       "description": "three concatenated gzip members decode as one stream",
       "rules": [
@@ -7604,6 +9527,193 @@
       }
     },
     {
+      "id": "SG-V-MULTI-0007",
+      "description": "skippable frames before, between and after real frames",
+      "rules": [
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "multiframe"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MULTI-0007.bin",
+        "sha256": "293df59791f10a491f7031d3453fa1f63b2fc5613d99b7d6749901a486f86d7e"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 200,
+        "sha256": "0e996deaa2748794ece91f9be9b0082503ff52b6483c169debf1755ef0690f7b"
+      }
+    },
+    {
+      "id": "SG-V-MULTI-0008",
+      "description": "only skippable frames is a valid, empty stream",
+      "rules": [
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "multiframe"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MULTI-0008.bin",
+        "sha256": "761cf32e5ce936b82b2118a28a5fef9dbef35aa35850aca8060c19762ecf13c7"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "SG-V-MULTI-0009",
+      "description": "10000 skippable frames of 8 bytes then data",
+      "rules": [
+        "SG-R-CDC-05"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "multiframe"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MULTI-0009.bin",
+        "sha256": "c660679e8fa5a12f364f3d208ca6266fe49e9f51c336ae8f60fd4dc6af040f89"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-MULTI-0010",
+      "description": "three zstd frames of 1000 bytes share one output budget: MaxOutput 2999",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-R-LAY-01",
+        "SG-R-LAY-03",
+        "SG-I-01"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "multiframe",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MULTI-0010.bin",
+        "sha256": "20e2e08d14be80ea46096d00d49ccf7b9090c5031fa1edacc4c3ab37bfc1f422"
+      },
+      "limits": {
+        "max_output": 2999,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "output_limit",
+        "phase": "read",
+        "delivered_exactly": 2999,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-MULTI-0011",
+      "description": "three zstd frames of 1000 bytes share one output budget: MaxOutput 3000",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-R-LAY-01",
+        "SG-R-LAY-03",
+        "SG-I-01"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "multiframe",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MULTI-0011.bin",
+        "sha256": "20e2e08d14be80ea46096d00d49ccf7b9090c5031fa1edacc4c3ab37bfc1f422"
+      },
+      "limits": {
+        "max_output": 3000,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 3000,
+        "sha256": "c81ca5eda5947c7826ad046fdbdc2a25a846b835a6c34c237cc8b3afbe9ec6cc"
+      }
+    },
+    {
+      "id": "SG-V-MULTI-0012",
+      "description": "three zstd frames of 1000 bytes share one output budget: MaxOutput 3001",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-R-LAY-01",
+        "SG-R-LAY-03",
+        "SG-I-01"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "multiframe",
+        "boundary"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-MULTI-0012.bin",
+        "sha256": "20e2e08d14be80ea46096d00d49ccf7b9090c5031fa1edacc4c3ab37bfc1f422"
+      },
+      "limits": {
+        "max_output": 3001,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 3000,
+        "sha256": "c81ca5eda5947c7826ad046fdbdc2a25a846b835a6c34c237cc8b3afbe9ec6cc"
+      }
+    },
+    {
       "id": "SG-V-RAT-0001",
       "description": "stored data (ratio about 1) with MaxRatio 100 and the ratio checked from the first byte",
       "rules": [
@@ -7741,6 +9851,928 @@
         "phase": "read",
         "delivered_exactly": 100000,
         "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0001",
+      "description": "brotli stream with window bits 10 is accepted under the default cap",
+      "rules": [
+        "SG-R-CDC-04"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "window",
+        "ok"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "data",
+          "params": {
+            "codec": "br",
+            "seed": 7,
+            "size": 100,
+            "window": 10
+          }
+        },
+        "sha256": "7fe4acdecdef13ecc66cf465c95c45d92a31fff4b76b3ef24f65e7aea8064ae7"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0002",
+      "description": "brotli stream with window bits 16 is accepted under the default cap",
+      "rules": [
+        "SG-R-CDC-04"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "window",
+        "ok"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "data",
+          "params": {
+            "codec": "br",
+            "seed": 7,
+            "size": 100,
+            "window": 16
+          }
+        },
+        "sha256": "118391f17b6e18fd9ad5d2ec1315d087445b64eb40443300a90b2314a0c330e7"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0003",
+      "description": "brotli stream with window bits 17 is accepted under the default cap",
+      "rules": [
+        "SG-R-CDC-04"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "window",
+        "ok"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "data",
+          "params": {
+            "codec": "br",
+            "seed": 7,
+            "size": 100,
+            "window": 17
+          }
+        },
+        "sha256": "1657a9c031f0063134ebe9f308393dfe3c87d9b20fb211e5d095d0eee92f8fbb"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0004",
+      "description": "brotli stream with window bits 22 is accepted under the default cap",
+      "rules": [
+        "SG-R-CDC-04"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "window",
+        "ok"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "data",
+          "params": {
+            "codec": "br",
+            "seed": 7,
+            "size": 100,
+            "window": 22
+          }
+        },
+        "sha256": "c7300a5765666dd504d8e10befaf9522516079c2b988488c433e9361de2efeba"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0005",
+      "description": "brotli stream with window bits 24 is accepted under the default cap",
+      "rules": [
+        "SG-R-CDC-04"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "window",
+        "ok"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "data",
+          "params": {
+            "codec": "br",
+            "seed": 7,
+            "size": 100,
+            "window": 24
+          }
+        },
+        "sha256": "b35678dc2e6ac0e393a7c0406f99a8aebe139a1133efdd01eeda195a5f9f5c8d"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0006",
+      "description": "brotli stream with window bits 10 under a memory cap of 1 MiB",
+      "rules": [
+        "SG-R-CDC-04",
+        "SG-I-08"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "window",
+        "ok"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "data",
+          "params": {
+            "codec": "br",
+            "seed": 7,
+            "size": 100,
+            "window": 10
+          }
+        },
+        "sha256": "7fe4acdecdef13ecc66cf465c95c45d92a31fff4b76b3ef24f65e7aea8064ae7"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "options": {
+        "memory_cap": 1048576
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0007",
+      "description": "brotli stream with window bits 20 under a memory cap of 1 MiB",
+      "rules": [
+        "SG-R-CDC-04",
+        "SG-I-08"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "window",
+        "ok"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "data",
+          "params": {
+            "codec": "br",
+            "seed": 7,
+            "size": 100,
+            "window": 20
+          }
+        },
+        "sha256": "05830699dd7961252e009f67af4403dc328d80475ce0a65fe7586108526d5195"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "options": {
+        "memory_cap": 1048576
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "b1ba304d4167f160cbaa010eadb9014ff933f6a35406a384f2f908f447cca8f5"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0008",
+      "description": "brotli stream with window bits 21 under a memory cap of 1 MiB",
+      "rules": [
+        "SG-R-CDC-04",
+        "SG-I-08"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "data",
+          "params": {
+            "codec": "br",
+            "seed": 7,
+            "size": 100,
+            "window": 21
+          }
+        },
+        "sha256": "5474b36f2cac999b62d6592703188066a47854439c3c972b506f222aba0b491c"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "options": {
+        "memory_cap": 1048576
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0009",
+      "description": "brotli stream with window bits 24 under a memory cap of 1 MiB",
+      "rules": [
+        "SG-R-CDC-04",
+        "SG-I-08"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "generator": {
+          "kind": "data",
+          "params": {
+            "codec": "br",
+            "seed": 7,
+            "size": 100,
+            "window": 24
+          }
+        },
+        "sha256": "b35678dc2e6ac0e393a7c0406f99a8aebe139a1133efdd01eeda195a5f9f5c8d"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "options": {
+        "memory_cap": 1048576
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0010",
+      "description": "a stream starting with the reserved large-window marker is refused as a memory request, not read as data",
+      "rules": [
+        "SG-R-CDC-04",
+        "SG-I-06"
+      ],
+      "refs": [
+        "RUSTSEC-2026-0455"
+      ],
+      "tags": [
+        "brotli",
+        "needs-br",
+        "window",
+        "cve"
+      ],
+      "tier": "small",
+      "encodings": [
+        "br"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0010.bin",
+        "sha256": "84fc05949dc1e486652a4ed316afb6434e9437eb30b714594a1d0b4205776602"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0011",
+      "description": "zstd window 2^10 is accepted under the default cap",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0011.bin",
+        "sha256": "005b08a9d023d341a7be5354bfd764d1e03e3e8e1b98f95827e8335c8cf229b6"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0012",
+      "description": "zstd window 2^17 is accepted under the default cap",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0012.bin",
+        "sha256": "a6fdda266d1aaae28273f70fd7de9d8ff8f6580ef5ae2a26d1f9998681460299"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0013",
+      "description": "zstd window 2^22 is accepted under the default cap",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0013.bin",
+        "sha256": "d601907165b9195671c6d14e529b7c60bcdc6deab3f5a2babf519e2303e535fa"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0014",
+      "description": "zstd window 2^23 is accepted under the default cap",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0014.bin",
+        "sha256": "f24765a941214f3cd6f488f0a09dc15e7a772c03f3003767a8358d174eb73ebe"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0015",
+      "description": "zstd window 2^24 is above the default cap of 8 MiB",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0015.bin",
+        "sha256": "5274b2bf0ee610315c9f6872ae5eeb807c98e9b73c64fcc22f3b585bba8efbee"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0016",
+      "description": "zstd window 2^30 is above the default cap of 8 MiB",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0016.bin",
+        "sha256": "e9b86862256206139284b157b34e8e242759e8be4bb86f756da70371eb48c094"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0017",
+      "description": "zstd window 2^41 is above the default cap of 8 MiB",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0017.bin",
+        "sha256": "c7ae5ad797b8adca1395370dfddbe6c68dfa24069e9e05f0d67dbfd125eafba1"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0018",
+      "description": "zstd window 4 MiB + 3.5 MiB (mantissa 7) is below the cap",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0018.bin",
+        "sha256": "26a0d575bfea66096ef122cf4e63ba1ff0c522585326c77dc56d4c7fd738324f"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0019",
+      "description": "zstd window 8 MiB + 1 MiB (mantissa 1) is above the cap",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0019.bin",
+        "sha256": "9c67335b8b4509cd663809cfa10f8f29d0cab23be42bff51cf5aca5447e6e642"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0020",
+      "description": "zstd window 2^20 under a memory cap of 1 MiB",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0020.bin",
+        "sha256": "4aa1f8084e70006f37ef2805c6f0fb6f316740c89d811b84807edc9386455f1c"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "options": {
+        "memory_cap": 1048576
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0021",
+      "description": "zstd window 2^21 under a memory cap of 1 MiB",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0021.bin",
+        "sha256": "c7e9011cb9048fb27b0bb845256aa16ab504b734f1684531cdfae2f50438d935"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "options": {
+        "memory_cap": 1048576
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0022",
+      "description": "single-segment frame with a declared and real content size of exactly 8 MiB",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-R-CDC-07"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window",
+        "ok"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0022.bin",
+        "sha256": "ab46a6b49b790e90b8a99bdddf1a923e4c2de625c0c42ce45bc31023c6583b26"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 8388608,
+        "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+      }
+    },
+    {
+      "id": "SG-V-WIN-0023",
+      "description": "single-segment frame declaring 8388609 bytes: the implied window is above the cap",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0023.bin",
+        "sha256": "e85a70f83f00d32c4d198ce1711dcc7a367058b6b7bd56816a198a100f03ccbb"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0024",
+      "description": "single-segment frame declaring 4294967296 bytes: the implied window is above the cap",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0024.bin",
+        "sha256": "85c39edb13e917e1703328511db8a78744a2ac5dfaac5af77e01449e7c0b476a"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0025",
+      "description": "single-segment frame declaring 9223372036854775808 bytes: the implied window is above the cap",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0025.bin",
+        "sha256": "524e1137a368290f4e087d4b1d38ad413d0e521e69fe42231584b85442ac7655"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0026",
+      "description": "single-segment frame declaring 1 MiB + 1 under a memory cap of 1 MiB",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0026.bin",
+        "sha256": "bdbee9494a348e5431df16dbdeaefd8e352220de07b3ac849cabfddf0945752b"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "options": {
+        "memory_cap": 1048576
+      },
+      "expect": {
+        "outcome": "memory_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-WIN-0027",
+      "description": "a dictionary id field holding 0 means no dictionary",
+      "rules": [
+        "SG-R-CDC-05",
+        "SG-I-08"
+      ],
+      "tags": [
+        "zstd",
+        "needs-zstd",
+        "window"
+      ],
+      "tier": "small",
+      "encodings": [
+        "zstd"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-WIN-0027.bin",
+        "sha256": "77a2eb871e418b0282a87b09cdd600c0531738ca51b52af3da5dfa02a5bd0a4c"
+      },
+      "limits": {
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 100,
+        "sha256": "82d8d0ac08ec87abf1f9ca5edab385915a8db973a1c8efe5aa796196ea6acf30"
       }
     }
   ]

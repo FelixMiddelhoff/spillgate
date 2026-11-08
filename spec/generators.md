@@ -29,12 +29,21 @@ The literal/length and distance code lengths are written with the code-length al
 
 **zlib stream.** Header `78 01`, the raw DEFLATE stream, Adler-32 of the decoded data (big-endian).
 
+**Brotli (RFC 7932).** The stream starts with the WBITS field (`0` for 16; `1` plus 3 bits for 18..24 as `wbits-17`; `1`, `000`, `000` for 17; `1`, `000` plus 3 bits as `wbits-8` for 10..15). Meta-blocks follow, each starting with ISLAST `0`, MNIBBLES (`00` for 4 nibbles when MLEN-1 < 2^16, `01` for 5 when < 2^20, otherwise `10` for 6), and MLEN-1 in that many nibbles.
+- *Zeros meta-block* (MLEN between 2122 and 2^24): ISUNCOMPRESSED `0`; NBLTYPESL, NBLTYPESI, NBLTYPESD = 1 (three `0` bits); NPOSTFIX 0 (2 bits); NDIRECT 0 (4 bits); one literal context mode 0 (2 bits); NTREESL = 1 and NTREESD = 1 (two `0` bits). Then three simple prefix codes, each written as HSKIP `1` (2 bits), NSYM-1 = `0` (2 bits) and one symbol: literal alphabet symbol 0 (8 bits), insert-and-copy alphabet symbol 423 (10 bits; insert length code 4, copy length code 23), distance alphabet symbol 0 (6 bits). Because every code has one symbol, symbols cost no bits. The data is one command whose copy length code 23 carries `MLEN - 4 - 2118` in 24 extra bits; the 4 inserted literals and the copy at distance 4 yield MLEN zero bytes. A stream of size S uses meta-blocks of 2^24 bytes plus one for the remainder (if the remainder is below 2122 it is merged into the previous block).
+- *Stored meta-block*: ISUNCOMPRESSED `1`, padding to a byte boundary, then MLEN raw bytes (at most 2^24 per block).
+- The stream ends with the empty last meta-block: ISLAST `1`, ISLASTEMPTY `1`, then padding.
+- *Large-window marker*: the byte `0x11` (WBITS pattern 1000001) followed by anything.
+
+**Zstandard (RFC 8878).** A frame is the magic `28 b5 2f fd`, a frame header descriptor byte (bits: FCS flag 7-6, single segment 5, reserved 3, checksum 2, dictionary flag 1-0), a window descriptor byte unless single-segment (`(windowLog - 10) << 3 | mantissa`), the dictionary id (0, 1, 2 or 4 bytes) and the frame content size (flag 0: 1 byte for single-segment frames, none otherwise; flag 1: 2 bytes holding size - 256; flag 2: 4 bytes; flag 3: 8 bytes). Blocks follow, each with a 3-byte little-endian header `size << 3 | type << 1 | last`. *Zeros*: RLE blocks (type 1) of up to 128 KiB, one byte `00` each: 4 bytes per 128 KiB, a ratio of 32768:1. *Stored*: raw blocks (type 0). A *skippable frame* is the magic `50 2a 4d 18`, a 4-byte size and that many bytes.
+
 ## Kinds
 
 | Kind | Params | Result |
 |------|--------|--------|
 | `zeros` | `codec` (`gzip`, `zlib`, `raw`), `matches` | ZerosDeflate wrapped by the codec; decodes to `1 + 258 * matches` zeros |
-| `data` | `codec`, `seed`, `size` | StoredDeflate of Data(seed, size) wrapped by the codec |
-| `wrap` | `codec`, `times`, `inner` (a spec) | the output of `inner`, wrapped `times` times in a stored stream of `codec` |
+| `zeros` | `codec` (`br`, `zstd`), `size`, `window` | zeros stream of `size` bytes; `window` is the brotli window bits (10..24) or the zstd window log (10..41) |
+| `data` | `codec`, `seed`, `size` (and `window` for `br`, `zstd`) | the stored construction of Data(seed, size) wrapped by the codec |
+| `wrap` | `codec`, `times`, `inner` (a spec; `window` for `br`, `zstd`) | the output of `inner`, wrapped `times` times in a stored stream of `codec` |
 
 `raw` means no wrapper (a raw DEFLATE stream).

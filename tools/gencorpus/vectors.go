@@ -84,6 +84,8 @@ func defineVectors(b *builder) {
 	defineInputLimitOnTheSource(b)
 	defineLimitValues(b)
 	defineRatio(b)
+	defineBrotli(b)
+	defineZstd(b)
 }
 
 // ---- BOMB ------------------------------------------------------------------
