@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"compress/gzip"
+	_ "embed"
 	"encoding/binary"
 	"fmt"
 	"strings"
@@ -742,17 +742,15 @@ func defineInputLimit(b *builder) {
 
 // defineInputLimitOnTheSource tests that MaxInput counts what the caller's
 // source delivers even when the first layer expands its input a lot. The
-// source is a real gzip compression (by the standard library; the bytes are
-// committed, so a later compressor change cannot affect them) of a stored gzip
-// stream of 100000 zeros.
+// source is a gzip compression of a stored gzip stream of 100000 zeros. The
+// compressed bytes are frozen in testdata/input-limit-source.gz: the standard
+// library compressor changes its output between Go versions (it did in 1.27), a
+// generator that called it would change the corpus. TestInputLimitSourceIsFrozen
+// checks the file still decodes to the stream described here.
 func defineInputLimitOnTheSource(b *builder) {
 	zeros := make([]byte, 100000)
 	inner := corpus.GzipStored(zeros) // about 100 KB, mostly zeros
-	var buf bytes.Buffer
-	w, _ := gzip.NewWriterLevel(&buf, gzip.BestCompression)
-	w.Write(inner)
-	w.Close()
-	source := buf.Bytes()
+	source := inputLimitSource
 
 	for _, cap := range []int64{int64(len(source)), int64(len(source)) - 1} {
 		v := vector{
@@ -972,3 +970,8 @@ func defineRatioMore(b *builder) {
 		Expect:      okData(data),
 	}, corpus.ZlibStored(data))
 }
+
+// inputLimitSource is the frozen gzip stream used by defineInputLimitOnTheSource.
+//
+//go:embed testdata/input-limit-source.gz
+var inputLimitSource []byte

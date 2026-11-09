@@ -2,9 +2,13 @@ package main
 
 import (
 	"bytes"
+	"compress/gzip"
+	"io"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/FelixMiddelhoff/spillgate/internal/corpus"
 )
 
 // The committed corpus must be exactly what the generator produces: nobody
@@ -75,5 +79,24 @@ func TestBuilderRejectsBrokenVectors(t *testing.T) {
 	dup.vectors = append(dup.vectors, dup.vectors[0])
 	if err := dup.check(); err == nil {
 		t.Error("duplicate id not rejected")
+	}
+}
+
+// The frozen source of the MaxInput-on-the-source vectors must still decode to
+// the stored gzip stream of 100000 zeros that its description promises.
+func TestInputLimitSourceIsFrozen(t *testing.T) {
+	zr, err := gzip.NewReader(bytes.NewReader(inputLimitSource))
+	if err != nil {
+		t.Fatal(err)
+	}
+	got, err := io.ReadAll(zr)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if want := corpus.GzipStored(make([]byte, 100000)); !bytes.Equal(got, want) {
+		t.Fatalf("frozen source decodes to %d bytes, not the expected stream of %d", len(got), len(want))
+	}
+	if len(inputLimitSource) > 1000 {
+		t.Errorf("source is %d bytes; it should stay tiny", len(inputLimitSource))
 	}
 }
