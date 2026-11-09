@@ -83,7 +83,7 @@ func (g *layerGuard) probeBeyondLimit() error {
 	switch {
 	case n > 0:
 		g.done = &Error{Kind: KindOutputLimit, Layer: g.layer, Limit: g.limits.maxOutput}
-	case errors.Is(err, io.EOF):
+	case err == io.EOF: // exactly io.EOF as the io.Reader contract says; a wrapped EOF is an error
 		g.done = io.EOF
 	default:
 		g.done = g.classify(err)
@@ -102,7 +102,7 @@ func (g *layerGuard) settle(n int, err error) error {
 	switch {
 	case err == nil:
 		return nil
-	case errors.Is(err, io.EOF):
+	case err == io.EOF: // exactly io.EOF as the io.Reader contract says; a wrapped EOF is an error
 		g.done = io.EOF
 	default:
 		g.done = g.classify(err)

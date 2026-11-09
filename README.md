@@ -56,6 +56,17 @@ The ratio default is measured: zeros compress to about 1029:1 in the best case
 for deflate, typical JSON to about 347:1. Raise `MaxRatio` for data you know to
 be sparser.
 
+Notes on the limits:
+
+- `DecodeAll` / `ReadAll` hold the whole body in memory, so `MaxOutput` is the
+  memory you are willing to spend per call. Choose a realistic value; for large
+  bodies stream with `Reader` instead. On 32-bit platforms keep it far below 2 GiB.
+- The ratio is evaluated after each `Read` of the codec, which for the codecs
+  here delivers at most one block (about 32 KiB for deflate). `MaxOutput` and
+  `MaxInput` are the hard bounds; the ratio limit catches bombs early.
+- A source error is reported as `source_error` with the source's own text in
+  `Cause`; that text is not shortened like header tokens are.
+
 ### Errors
 
 Every refusal is a `*spillgate.Error` with a `Kind`; use `errors.Is` with

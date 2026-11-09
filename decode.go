@@ -197,7 +197,7 @@ func (d *Decoder) buildChain(ctx context.Context, src io.Reader, layers []string
 		var codec io.Reader = meter // identity: bytes pass through the guard unchanged
 		if len(layers) > 0 {
 			var err error
-			if codec, err = d.codecs[layers[i]].NewReader(meter); err != nil {
+			if codec, err = newContained(d.codecs[layers[i]], meter); err != nil {
 				chain.Close()
 				return nil, &Error{Kind: KindInternal, Layer: index, Cause: fmt.Errorf("creating the %s decoder: %w", layers[i], err)}
 			}
@@ -212,4 +212,16 @@ func (d *Decoder) buildChain(ctx context.Context, src io.Reader, layers []string
 		current = guard
 	}
 	return chain, nil
+}
+
+// newContained calls codec.NewReader and turns a panic into an error, so a
+// misbehaving codec cannot crash the host while the chain is built
+// (SG-R-CDC-08, SG-I-05). Only the panic type is reported.
+func newContained(codec Codec, src Source) (r io.Reader, err error) {
+	defer func() {
+		if p := recover(); p != nil {
+			r, err = nil, fmt.Errorf("codec panicked (%T)", p)
+		}
+	}()
+	return codec.NewReader(src)
 }

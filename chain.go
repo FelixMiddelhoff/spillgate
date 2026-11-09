@@ -2,6 +2,7 @@ package spillgate
 
 import (
 	"errors"
+	"fmt"
 	"io"
 )
 
@@ -33,7 +34,7 @@ func (c *chainReader) Read(p []byte) (int, error) {
 
 	// A layer that already failed has reported its own, more specific error.
 	// The end-to-end check only judges streams that are still fine or just ended.
-	layerFailed := err != nil && !errors.Is(err, io.EOF)
+	layerFailed := err != nil && err != io.EOF
 	if n > 0 && !layerFailed && c.limits.ratioExceeded(c.produced, c.source.Consumed()) {
 		c.done = &Error{Kind: KindRatioLimit, Limit: c.limits.maxRatio,
 			Cause: errors.New("end-to-end expansion over the whole chain")}
@@ -55,10 +56,22 @@ func (c *chainReader) Close() error {
 
 	var first error
 	for _, closer := range c.closers {
-		if err := closer.Close(); err != nil && first == nil {
+		if err := closeContained(closer); err != nil && first == nil {
 			first = err
 		}
 	}
 	c.closers = nil
 	return first
+}
+
+// closeContained closes a codec and turns a panic in its Close into an error,
+// so one misbehaving codec neither crashes the host nor leaves the layers
+// behind it open (SG-R-CDC-08, SG-I-05). Only the panic type is reported.
+func closeContained(c io.Closer) (err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			err = &Error{Kind: KindInternal, Cause: fmt.Errorf("codec panicked in Close (%T)", r)}
+		}
+	}()
+	return c.Close()
 }

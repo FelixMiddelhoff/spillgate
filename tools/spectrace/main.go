@@ -1,5 +1,5 @@
 // Command spectrace checks that every rule and invariant ID in spec/SPEC.md
-// is named by at least one conformance vector or one test file.
+// is named by at least one conformance vector or by the doc comment of a test.
 //
 // Usage: go run ./tools/spectrace [-root dir] [-allow-uncovered]
 package main
@@ -108,7 +108,7 @@ func coveredIDs(root string) (map[string]bool, error) {
 		if readErr != nil {
 			return readErr
 		}
-		for _, id := range idPattern.FindAllString(string(data), -1) {
+		for _, id := range attachedIDs(string(data)) {
 			covered[id] = true
 		}
 		return nil
@@ -119,4 +119,26 @@ func coveredIDs(root string) (map[string]bool, error) {
 func fail(err error) {
 	fmt.Fprintln(os.Stderr, "spectrace:", err)
 	os.Exit(2)
+}
+
+// attachedIDs returns the IDs named in the doc comment of a Test, Fuzz or
+// Example function. An ID that only appears elsewhere (a stray comment, a
+// string, a helper) does not count as coverage: the test that protects the
+// rule has to say so in its own doc comment.
+func attachedIDs(source string) []string {
+	var ids []string
+	var comment []string
+	for _, line := range strings.Split(source, "\n") {
+		trimmed := strings.TrimSpace(line)
+		switch {
+		case strings.HasPrefix(trimmed, "//"):
+			comment = append(comment, trimmed)
+		case strings.HasPrefix(line, "func Test"), strings.HasPrefix(line, "func Fuzz"), strings.HasPrefix(line, "func Example"):
+			ids = append(ids, idPattern.FindAllString(strings.Join(comment, "\n"), -1)...)
+			comment = nil
+		default:
+			comment = nil
+		}
+	}
+	return ids
 }

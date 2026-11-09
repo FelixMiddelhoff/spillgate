@@ -42,7 +42,7 @@ type Transport struct {
 	acceptEncoding string
 }
 
-// NewTransport wraps base (nil means [http.DefaultTransport]). Every response
+// NewTransport panics if decoder is nil. It wraps base (nil means [http.DefaultTransport]). Every response
 // body, with or without a Content-Encoding header, is bounded by the decoder's
 // limits. acceptEncoding lists the encodings sent in Accept-Encoding; it must
 // only name encodings the decoder supports (default [DefaultAcceptEncoding]).
@@ -57,6 +57,9 @@ type Transport struct {
 // On success the response has Content-Encoding and Content-Length removed,
 // ContentLength -1 and Uncompressed true, as with the standard transport.
 func NewTransport(base http.RoundTripper, decoder *spillgate.Decoder, acceptEncoding ...string) *Transport {
+	if decoder == nil {
+		panic("httpx: nil decoder")
+	}
 	if base == nil {
 		base = http.DefaultTransport
 	}
@@ -70,6 +73,9 @@ func NewTransport(base http.RoundTripper, decoder *spillgate.Decoder, acceptEnco
 func (t *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
 	if req.Header.Get("Accept-Encoding") == "" {
 		req = req.Clone(req.Context()) // never modify the caller's request
+		if req.Header == nil {
+			req.Header = http.Header{} // Clone keeps a nil map
+		}
 		req.Header.Set("Accept-Encoding", t.acceptEncoding)
 	}
 	resp, err := t.base.RoundTrip(req)
@@ -134,7 +140,8 @@ func StatusFor(err error) int {
 	return http.StatusInternalServerError
 }
 
-// Middleware decodes request bodies with decoder before next sees them.
+// Middleware decodes request bodies with decoder before next sees them. It
+// panics if decoder is nil.
 //
 // A request whose Content-Encoding the decoder refuses (unsupported,
 // malformed, too many layers) is answered with the status from [StatusFor]
@@ -149,6 +156,9 @@ func StatusFor(err error) int {
 //	body, err := io.ReadAll(r.Body)
 //	if err != nil { httpx.Fail(w, err); return }
 func Middleware(decoder *spillgate.Decoder) func(http.Handler) http.Handler {
+	if decoder == nil {
+		panic("httpx: nil decoder")
+	}
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if r.Body == nil || r.Body == http.NoBody {

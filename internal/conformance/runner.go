@@ -36,6 +36,11 @@ type Config struct {
 	// options.memory_cap in bytes, or 0 for the codec's default. A vector
 	// tagged "needs-br" runs only if Codecs has "br".
 	Codecs map[string]func(memoryCap uint64) spillgate.Option
+
+	// NoSkips makes a vector that needs a codec missing from Codecs fail
+	// instead of being skipped. The suite that is meant to run everything
+	// sets it, so a lost codec cannot hide failures behind skips.
+	NoSkips bool
 }
 
 type manifestFile struct {
@@ -313,6 +318,9 @@ func Run(t *testing.T, cfg Config) {
 			}
 			for _, name := range neededCodecs(v) {
 				if cfg.Codecs[name] == nil {
+					if cfg.NoSkips {
+						t.Fatalf("needs the optional codec %q, which is not configured", name)
+					}
 					t.Skipf("needs the optional codec %q", name)
 				}
 			}

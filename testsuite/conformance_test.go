@@ -16,7 +16,8 @@ import (
 // turned into each codec's own setting.
 func config() conformance.Config {
 	return conformance.Config{
-		Root: "..",
+		Root:    "..",
+		NoSkips: true,
 		Codecs: map[string]func(uint64) spillgate.Option{
 			"br": func(memoryCap uint64) spillgate.Option {
 				if memoryCap == 0 {
