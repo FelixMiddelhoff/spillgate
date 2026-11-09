@@ -5625,6 +5625,252 @@
       }
     },
     {
+      "id": "SG-V-INP-0009",
+      "description": "zlib stored stream of 411 bytes with MaxInput 411",
+      "rules": [
+        "SG-R-INP-01",
+        "SG-R-INP-02"
+      ],
+      "tags": [
+        "input-limit"
+      ],
+      "tier": "small",
+      "encodings": [
+        "deflate"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-INP-0009.bin",
+        "sha256": "fea205f5355b76fcb7f7a68c39d338eaf3f9fe85dd9153aed4f50aef5693d77b"
+      },
+      "limits": {
+        "max_input": 411,
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 400,
+        "sha256": "39cd177a613498ac8a237fe2deb297ef77a99457090e86e52c44e57915a5bdd4"
+      }
+    },
+    {
+      "id": "SG-V-INP-0010",
+      "description": "zlib stored stream of 411 bytes with MaxInput 410",
+      "rules": [
+        "SG-R-INP-01",
+        "SG-R-INP-02"
+      ],
+      "tags": [
+        "input-limit"
+      ],
+      "tier": "small",
+      "encodings": [
+        "deflate"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-INP-0010.bin",
+        "sha256": "fea205f5355b76fcb7f7a68c39d338eaf3f9fe85dd9153aed4f50aef5693d77b"
+      },
+      "limits": {
+        "max_input": 410,
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "input_limit",
+        "phase": "read",
+        "delivered_at_most": 400,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-INP-0011",
+      "description": "raw deflate stored stream of 405 bytes with MaxInput 405",
+      "rules": [
+        "SG-R-INP-01",
+        "SG-R-INP-02"
+      ],
+      "tags": [
+        "input-limit"
+      ],
+      "tier": "small",
+      "encodings": [
+        "deflate"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-INP-0011.bin",
+        "sha256": "1e2e088d58c3c1ae582991b7dca8cf83ba8a01d2ad1561484854ee5d9d5f8383"
+      },
+      "limits": {
+        "max_input": 405,
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 400,
+        "sha256": "39cd177a613498ac8a237fe2deb297ef77a99457090e86e52c44e57915a5bdd4"
+      }
+    },
+    {
+      "id": "SG-V-INP-0012",
+      "description": "raw deflate stored stream of 405 bytes with MaxInput 404",
+      "rules": [
+        "SG-R-INP-01",
+        "SG-R-INP-02"
+      ],
+      "tags": [
+        "input-limit"
+      ],
+      "tier": "small",
+      "encodings": [
+        "deflate"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-INP-0012.bin",
+        "sha256": "1e2e088d58c3c1ae582991b7dca8cf83ba8a01d2ad1561484854ee5d9d5f8383"
+      },
+      "limits": {
+        "max_input": 404,
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "input_limit",
+        "phase": "read",
+        "delivered_at_most": 400,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-INP-0013",
+      "description": "two gzip members, 846 bytes together, MaxInput 846: one cap for the whole source",
+      "rules": [
+        "SG-R-INP-01",
+        "SG-R-CDC-02"
+      ],
+      "tags": [
+        "input-limit",
+        "multi-member"
+      ],
+      "tier": "small",
+      "encodings": [
+        "gzip"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-INP-0013.bin",
+        "sha256": "ee59cd2f7a5f0fc5cee09e79bff63cef8f0dc5c470e5bb5ac9c818c4b7cfd9e7"
+      },
+      "limits": {
+        "max_input": 846,
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 800,
+        "sha256": "3bbe986dd66c7e8845c87689f42cdf8928499412494ce3b6ed9bc364d7741f69"
+      }
+    },
+    {
+      "id": "SG-V-INP-0014",
+      "description": "two gzip members, 846 bytes together, MaxInput 845: one cap for the whole source",
+      "rules": [
+        "SG-R-INP-01",
+        "SG-R-CDC-02"
+      ],
+      "tags": [
+        "input-limit",
+        "multi-member"
+      ],
+      "tier": "small",
+      "encodings": [
+        "gzip"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-INP-0014.bin",
+        "sha256": "ee59cd2f7a5f0fc5cee09e79bff63cef8f0dc5c470e5bb5ac9c818c4b7cfd9e7"
+      },
+      "limits": {
+        "max_input": 845,
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "input_limit",
+        "phase": "read",
+        "delivered_at_most": 800,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-INP-0015",
+      "description": "MaxInput 1 stops a gzip stream after the first byte",
+      "rules": [
+        "SG-R-INP-01",
+        "SG-R-INP-02"
+      ],
+      "tags": [
+        "input-limit"
+      ],
+      "tier": "small",
+      "encodings": [
+        "gzip"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-INP-0015.bin",
+        "sha256": "af68724fc44d92f741f1b9bab609f0088a131103831b9d9d9a483a5d36f20f77"
+      },
+      "limits": {
+        "max_input": 1,
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "input_limit",
+        "phase": "read",
+        "delivered_exactly": 0,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-INP-0016",
+      "description": "a 258 KB zeros stream with MaxInput 100 and a generous output limit: the input cap, not the output limit, ends it",
+      "rules": [
+        "SG-R-INP-01",
+        "SG-R-INP-02"
+      ],
+      "tags": [
+        "input-limit",
+        "bomb"
+      ],
+      "tier": "small",
+      "encodings": [
+        "gzip"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "gzip",
+            "matches": 1000
+          }
+        },
+        "sha256": "62cbb7d401c7a8d40f786801c722ac09702237a0effcdb2d16d7c0d4fcc41103"
+      },
+      "limits": {
+        "max_input": 100,
+        "max_output": 1073741824,
+        "max_ratio": "none"
+      },
+      "expect": {
+        "outcome": "input_limit",
+        "phase": "read",
+        "delivered_at_most": 1048576,
+        "layer": 1
+      }
+    },
+    {
       "id": "SG-V-LIE-0001",
       "description": "ISIZE says 0, the real size is 5000, MaxOutput 2500: the declared size never changes the allowance",
       "rules": [
@@ -9851,6 +10097,192 @@
         "phase": "read",
         "delivered_exactly": 100000,
         "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-RAT-0005",
+      "description": "zlib zeros at about 1000:1 against MaxRatio 100 and a RatioGrace of 1000 bytes is a ratio error",
+      "rules": [
+        "SG-R-RAT-01",
+        "SG-R-RAT-05",
+        "SG-I-02"
+      ],
+      "tags": [
+        "ratio"
+      ],
+      "tier": "small",
+      "encodings": [
+        "deflate"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "zlib",
+            "matches": 1000
+          }
+        },
+        "sha256": "7bba13a009ed11a851aeaf8dac43316c0739a2080ac6e14bf77b4b465f4c030d"
+      },
+      "limits": {
+        "max_output": 16777216,
+        "max_ratio": 100,
+        "ratio_grace": 1000
+      },
+      "expect": {
+        "outcome": "ratio_limit",
+        "phase": "read",
+        "delivered_at_most": 1048576,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-RAT-0006",
+      "description": "raw deflate zeros at about 1000:1 against MaxRatio 100 and a RatioGrace of 1000 bytes is a ratio error",
+      "rules": [
+        "SG-R-RAT-01",
+        "SG-R-RAT-05",
+        "SG-I-02"
+      ],
+      "tags": [
+        "ratio"
+      ],
+      "tier": "small",
+      "encodings": [
+        "deflate"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "raw",
+            "matches": 1000
+          }
+        },
+        "sha256": "600ec2d1395d92a413ddfaea6b71ed201756deb2352f1b7f81bdf1174ee4bfd4"
+      },
+      "limits": {
+        "max_output": 16777216,
+        "max_ratio": 100,
+        "ratio_grace": 1000
+      },
+      "expect": {
+        "outcome": "ratio_limit",
+        "phase": "read",
+        "delivered_at_most": 1048576,
+        "layer": 1
+      }
+    },
+    {
+      "id": "SG-V-RAT-0007",
+      "description": "the layer ratio is judged per layer: a stored gzip layer around a zeros stream, the inner layer exceeds MaxRatio 100",
+      "rules": [
+        "SG-R-RAT-01",
+        "SG-R-RAT-02",
+        "SG-R-LAY-01"
+      ],
+      "tags": [
+        "ratio",
+        "chain"
+      ],
+      "tier": "small",
+      "encodings": [
+        "gzip",
+        "gzip"
+      ],
+      "input": {
+        "generator": {
+          "kind": "wrap",
+          "params": {
+            "codec": "gzip",
+            "times": 1,
+            "inner": {
+              "kind": "zeros",
+              "params": {
+                "codec": "gzip",
+                "matches": 1000
+              }
+            }
+          }
+        },
+        "sha256": "8bd9ae72f8bab23c7f30eb8027d38679df67fe7aed97eeb0155d351fa619913c"
+      },
+      "limits": {
+        "max_output": 16777216,
+        "max_ratio": 100,
+        "ratio_grace": 1000
+      },
+      "expect": {
+        "outcome": "ratio_limit",
+        "phase": "read",
+        "delivered_at_most": 1048576,
+        "layer": 2
+      }
+    },
+    {
+      "id": "SG-V-RAT-0008",
+      "description": "the same zeros stream with MaxRatio 2000 (above its ratio of about 1030) decodes completely",
+      "rules": [
+        "SG-R-RAT-01",
+        "SG-R-RAT-05"
+      ],
+      "tags": [
+        "ratio",
+        "ok"
+      ],
+      "tier": "small",
+      "encodings": [
+        "gzip"
+      ],
+      "input": {
+        "generator": {
+          "kind": "zeros",
+          "params": {
+            "codec": "gzip",
+            "matches": 1000
+          }
+        },
+        "sha256": "62cbb7d401c7a8d40f786801c722ac09702237a0effcdb2d16d7c0d4fcc41103"
+      },
+      "limits": {
+        "max_output": 16777216,
+        "max_ratio": 2000,
+        "ratio_grace": 1000
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 258001,
+        "sha256": "52dc0bcd665dd87af110f944940a5a87046fff1c43de825a3a0a95d616479393"
+      }
+    },
+    {
+      "id": "SG-V-RAT-0009",
+      "description": "stored deflate data (ratio about 1) with MaxRatio 1 and the ratio checked from the first byte is fine",
+      "rules": [
+        "SG-R-RAT-01",
+        "SG-R-RAT-05"
+      ],
+      "tags": [
+        "ratio",
+        "ok"
+      ],
+      "tier": "small",
+      "encodings": [
+        "deflate"
+      ],
+      "input": {
+        "file": "vectors/small/SG-V-RAT-0009.bin",
+        "sha256": "e42bc6c4c9ec4aa7a30b02ba31f041589a23a1ba264abb5cb23d7d0e0384c42c"
+      },
+      "limits": {
+        "max_output": 1048576,
+        "max_ratio": 1,
+        "ratio_grace": 1
+      },
+      "expect": {
+        "outcome": "ok",
+        "length": 5000,
+        "sha256": "a3e292ac14a465ef026e9c195b17d4197002572641e54a2f44eb8d31ea034a5e"
       }
     },
     {

@@ -41,6 +41,11 @@ type Config struct {
 	// instead of being skipped. The suite that is meant to run everything
 	// sets it, so a lost codec cannot hide failures behind skips.
 	NoSkips bool
+
+	// Tamper, if set, edits every vector's limits before use. It exists for
+	// negative controls: a runner whose limits are weakened must fail, which
+	// proves it can fail.
+	Tamper func(*spillgate.Limits)
 }
 
 type manifestFile struct {
@@ -194,6 +199,9 @@ func translate(t *testing.T, cfg Config, v vectorSpec) (spillgate.Limits, []spil
 		default:
 			t.Fatalf("%s: unknown option %q", v.ID, key)
 		}
+	}
+	if cfg.Tamper != nil {
+		cfg.Tamper(&limits)
 	}
 	for _, name := range neededCodecs(v) {
 		opts = append(opts, cfg.Codecs[name](memoryCap))

@@ -101,7 +101,7 @@ when many requests decode at once.
 ## Specification and tests
 
 The rules are language-neutral and numbered in [spec/SPEC.md](spec/SPEC.md).
-[conformance/](conformance) holds 340 test vectors (bombs, malformed streams,
+[conformance/](conformance) holds 353 test vectors (bombs, malformed streams,
 header attacks, lying size fields) that every implementation must pass.
 The suite also covers the published advisories for decompression-limit bugs;
 see [docs/cve-coverage.md](docs/cve-coverage.md). The tests include fuzzing,

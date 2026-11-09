@@ -47,7 +47,7 @@ jobs:
       - name: zstd
         working-directory: zstd
         run: go test ./...
-      - name: testsuite (all 340 conformance vectors, differential, canaries)
+      - name: testsuite (all 353 conformance vectors, differential, canaries)
         working-directory: testsuite
         run: go test ./...
 

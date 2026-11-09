@@ -82,8 +82,10 @@ func defineVectors(b *builder) {
 	defineMultiMember(b)
 	defineInputLimit(b)
 	defineInputLimitOnTheSource(b)
+	defineInputLimitMore(b)
 	defineLimitValues(b)
 	defineRatio(b)
+	defineRatioMore(b)
 	defineBrotli(b)
 	defineZstd(b)
 }
@@ -852,4 +854,121 @@ func defineRatio(b *builder) {
 		Limits:      noRatio(100000),
 		Expect:      readError("output_limit", 1, 100000),
 	}, corpus.Zeros("gzip", 1000))
+}
+
+// ---- more INP and RAT ------------------------------------------------------
+
+// defineInputLimitMore repeats the exact MaxInput boundary for the other
+// framings and for streams of several members, and adds a bomb that the input
+// cap stops although the output limit would allow it.
+func defineInputLimitMore(b *builder) {
+	data := corpus.Data(73, 400)
+	streams := []struct {
+		label    string
+		encoding string
+		stream   []byte
+	}{
+		{"zlib stored", "deflate", corpus.ZlibStored(data)},
+		{"raw deflate stored", "deflate", corpus.StoredDeflate(data)},
+	}
+	for _, s := range streams {
+		for _, cap := range []int64{int64(len(s.stream)), int64(len(s.stream)) - 1} {
+			v := vector{
+				Description: fmt.Sprintf("%s stream of %d bytes with MaxInput %d", s.label, len(s.stream), cap),
+				Rules:       ids("SG-R-INP-01", "SG-R-INP-02"),
+				Tags:        []string{"input-limit"},
+				Encodings:   []string{s.encoding},
+				Limits:      with(generous, "max_input", cap),
+			}
+			if cap >= int64(len(s.stream)) {
+				v.Expect = okData(data)
+			} else {
+				v.Expect = readErrorAtMost("input_limit", 1, int64(len(data)))
+			}
+			b.addFile("INP", v, s.stream)
+		}
+	}
+
+	// Two gzip members: the cap covers both together.
+	both := append(corpus.GzipStored(data), corpus.GzipStored(data)...)
+	for _, cap := range []int64{int64(len(both)), int64(len(both)) - 1} {
+		v := vector{
+			Description: fmt.Sprintf("two gzip members, %d bytes together, MaxInput %d: one cap for the whole source", len(both), cap),
+			Rules:       ids("SG-R-INP-01", "SG-R-CDC-02"),
+			Tags:        []string{"input-limit", "multi-member"},
+			Encodings:   []string{"gzip"},
+			Limits:      with(generous, "max_input", cap),
+		}
+		if cap >= int64(len(both)) {
+			v.Expect = okData(append(append([]byte{}, data...), data...))
+		} else {
+			v.Expect = readErrorAtMost("input_limit", 1, int64(2*len(data)))
+		}
+		b.addFile("INP", v, both)
+	}
+
+	one := corpus.GzipStored(data)
+	b.addFile("INP", vector{
+		Description: "MaxInput 1 stops a gzip stream after the first byte",
+		Rules:       ids("SG-R-INP-01", "SG-R-INP-02"),
+		Tags:        []string{"input-limit"},
+		Encodings:   []string{"gzip"},
+		Limits:      with(generous, "max_input", 1),
+		Expect:      readError("input_limit", 1, 0),
+	}, one)
+
+	b.addGenerated("INP", "small", vector{
+		Description: "a 258 KB zeros stream with MaxInput 100 and a generous output limit: the input cap, not the output limit, ends it",
+		Rules:       ids("SG-R-INP-01", "SG-R-INP-02"),
+		Tags:        []string{"input-limit", "bomb"},
+		Encodings:   []string{"gzip"},
+		Limits:      with(noRatio(1<<30), "max_input", 100),
+		Expect:      readErrorAtMost("input_limit", 1, 1<<20),
+	}, corpus.Zeros("gzip", 1000))
+}
+
+// defineRatioMore covers the ratio limit for every DEFLATE framing, a nested
+// layer, the boundary of MaxRatio itself and the tight settings.
+func defineRatioMore(b *builder) {
+	for _, c := range []struct{ label, encoding, gen string }{
+		{"zlib", "deflate", "zlib"},
+		{"raw deflate", "deflate", "raw"},
+	} {
+		b.addGenerated("RAT", "small", vector{
+			Description: c.label + " zeros at about 1000:1 against MaxRatio 100 and a RatioGrace of 1000 bytes is a ratio error",
+			Rules:       ids("SG-R-RAT-01", "SG-R-RAT-05", "SG-I-02"),
+			Tags:        []string{"ratio"},
+			Encodings:   []string{c.encoding},
+			Limits:      map[string]any{"max_output": 1 << 24, "max_ratio": 100, "ratio_grace": 1000},
+			Expect:      readErrorAtMost("ratio_limit", 1, 1<<20),
+		}, corpus.Zeros(c.gen, 1000))
+	}
+
+	b.addGenerated("RAT", "small", vector{
+		Description: "the layer ratio is judged per layer: a stored gzip layer around a zeros stream, the inner layer exceeds MaxRatio 100",
+		Rules:       ids("SG-R-RAT-01", "SG-R-RAT-02", "SG-R-LAY-01"),
+		Tags:        []string{"ratio", "chain"},
+		Encodings:   []string{"gzip", "gzip"},
+		Limits:      map[string]any{"max_output": 1 << 24, "max_ratio": 100, "ratio_grace": 1000},
+		Expect:      readErrorAtMost("ratio_limit", 2, 1<<20),
+	}, corpus.Wrap("gzip", 1, corpus.Zeros("gzip", 1000)))
+
+	b.addGenerated("RAT", "small", vector{
+		Description: "the same zeros stream with MaxRatio 2000 (above its ratio of about 1030) decodes completely",
+		Rules:       ids("SG-R-RAT-01", "SG-R-RAT-05"),
+		Tags:        []string{"ratio", "ok"},
+		Encodings:   []string{"gzip"},
+		Limits:      map[string]any{"max_output": 1 << 24, "max_ratio": 2000, "ratio_grace": 1000},
+		Expect:      okZeros(corpus.ZerosDecodedSize(1000)),
+	}, corpus.Zeros("gzip", 1000))
+
+	data := corpus.Data(92, 5000)
+	b.addFile("RAT", vector{
+		Description: "stored deflate data (ratio about 1) with MaxRatio 1 and the ratio checked from the first byte is fine",
+		Rules:       ids("SG-R-RAT-01", "SG-R-RAT-05"),
+		Tags:        []string{"ratio", "ok"},
+		Encodings:   []string{"deflate"},
+		Limits:      map[string]any{"max_output": 1 << 20, "max_ratio": 1, "ratio_grace": 1},
+		Expect:      okData(data),
+	}, corpus.ZlibStored(data))
 }
