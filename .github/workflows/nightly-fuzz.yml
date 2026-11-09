@@ -1,0 +1,39 @@
+name: nightly-fuzz
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - { dir: ".", name: FuzzDecode }
+          - { dir: ".", name: FuzzGuardNeverExceedsTheLimit }
+          - { dir: ".", name: FuzzParseContentEncoding }
+          - { dir: br, name: FuzzDecode }
+          - { dir: zstd, name: FuzzDecode }
+          - { dir: testsuite, name: FuzzDifferential }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with: { go-version: stable, cache: false }
+      - name: fuzz
+        working-directory: ${{ matrix.target.dir }}
+        run: go test -run '^$' -fuzz '^${{ matrix.target.name }}$' -fuzztime 60m
+      - name: keep crashers
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: crashers-${{ matrix.target.name }}-${{ strategy.job-index }}
+          path: "**/testdata/fuzz/**"
+          if-no-files-found: ignore

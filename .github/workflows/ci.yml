@@ -1,0 +1,122 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Core, httpx and br: the modules that support the minimum Go version.
+  test-min:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        go: ["1.23", "stable"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with: { go-version: "${{ matrix.go }}", cache: false }
+      - name: core and httpx
+        run: go test ./...
+      - name: br
+        working-directory: br
+        run: go test ./...
+
+  # zstd and testsuite need Go 1.25 (fixed klauspost/compress).
+  test-full:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with: { go-version: stable, cache: false }
+      - name: zstd
+        working-directory: zstd
+        run: go test ./...
+      - name: testsuite (all 340 conformance vectors, differential, canaries)
+        working-directory: testsuite
+        run: go test ./...
+
+  race:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with: { go-version: stable, cache: false }
+      - run: go test -race -short ./...
+      - run: cd br && go test -race -short ./...
+      - run: cd zstd && go test -race -short ./...
+      - run: cd testsuite && go test -race -short ./...
+
+  # 32-bit: counters and budgets must not overflow.
+  i386:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with: { go-version: stable, cache: false }
+      - run: GOARCH=386 go test -short ./...
+      - run: cd br && GOARCH=386 go test -short ./...
+      - run: cd zstd && GOARCH=386 go test -short ./...
+
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with: { go-version: stable, cache: false }
+      - name: gofmt
+        run: test -z "$(gofmt -l .)"
+      - name: vet
+        run: |
+          for m in . br zstd testsuite; do (cd $m && go vet ./...); done
+      - name: spec rule coverage
+        run: go run ./tools/spectrace
+      - name: corpus matches generator
+        run: go test ./tools/gencorpus
+      - name: staticcheck
+        run: |
+          for m in . br zstd testsuite; do (cd $m && go run honnef.co/go/tools/cmd/staticcheck@v0.8.2 ./...); done
+      # G104 (unchecked Close/Write on decoders and hashes) and G115 (integer
+      # conversions) are excluded after review: the only G115 hits are the gzip
+      # ISIZE field, which is a length modulo 2^32 by definition, byte-wise
+      # serialisation in the corpus generator and the zstd frame scanner, and a
+      # test-runner cast of a checked non-negative value. Budgets are int64 and
+      # are covered by the 32-bit job and the arithmetic tests.
+      - name: gosec
+        run: go run github.com/securego/gosec/v2/cmd/gosec@v2.30.0 -quiet -exclude=G104,G115 -exclude-dir=testsuite -exclude-dir=tools ./...
+      - name: govulncheck
+        run: |
+          for m in . br zstd; do (cd $m && go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...); done
+
+  # Short fuzz run on every pull request: catches regressions in minutes.
+  fuzz-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with: { go-version: stable, cache: false }
+      - run: go test -run '^$' -fuzz '^FuzzDecode$' -fuzztime 30s .
+      - run: go test -run '^$' -fuzz '^FuzzGuardNeverExceedsTheLimit$' -fuzztime 20s .
+      - run: go test -run '^$' -fuzz '^FuzzParseContentEncoding$' -fuzztime 20s .
+      - run: cd br && go test -run '^$' -fuzz '^FuzzDecode$' -fuzztime 20s .
+      - run: cd zstd && go test -run '^$' -fuzz '^FuzzDecode$' -fuzztime 20s .
+      - run: cd testsuite && go test -run '^$' -fuzz '^FuzzDifferential$' -fuzztime 20s .

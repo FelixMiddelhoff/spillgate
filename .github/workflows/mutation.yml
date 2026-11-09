@@ -1,0 +1,24 @@
+name: mutation
+
+# Weekly: change the guard code one operator at a time and require the tests
+# to fail. A surviving mutant in the trust path (limits, guard, meter, header,
+# chain, framing) means a missing test and gets one.
+on:
+  schedule:
+    - cron: "5 5 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mutate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with: { go-version: stable, cache: false }
+      - name: gremlins
+        run: go run github.com/go-gremlins/gremlins/cmd/gremlins@v0.6.0 unleash --tags "" --threshold-efficacy 90 .
