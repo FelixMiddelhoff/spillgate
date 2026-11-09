@@ -6,11 +6,9 @@ require (
 	github.com/FelixMiddelhoff/spillgate v0.0.0
 	github.com/FelixMiddelhoff/spillgate/br v0.0.0
 	github.com/FelixMiddelhoff/spillgate/zstd v0.0.0
-)
-
-require (
-	github.com/andybalholm/brotli v1.2.8 // indirect
-	github.com/klauspost/compress v1.20.3 // indirect
+	github.com/andybalholm/brotli v1.2.8
+	github.com/klauspost/compress v1.20.3
+	go.uber.org/goleak v1.3.0
 )
 
 // Local development: all modules of the repository sit next to each other.
