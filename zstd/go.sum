@@ -1,2 +1,4 @@
+github.com/FelixMiddelhoff/spillgate v0.1.0 h1:qN4g5P6wMg/US952DDuQIO5shVDGPvR/dy3QKIpSzkc=
+github.com/FelixMiddelhoff/spillgate v0.1.0/go.mod h1:o+jInk/BOD3cga7s7MlLrszJYLMNYa1Wq9ef0mPlO+A=
 github.com/klauspost/compress v1.20.3 h1:zWNoFqq/lSuYQRim3dUXlXeA0IqwuZGicdG5ZTfY5j4=
 github.com/klauspost/compress v1.20.3/go.mod h1:LUdAzn7YLVvxLpc7y3V1m40wESHTgc1422pwwBSKYuI=
