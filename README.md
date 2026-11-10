@@ -28,6 +28,8 @@ version without a known decoder panic requires it.
 
 ## Use
 
+A step-by-step guide for integrating it into a service, including limits, HTTP client and server wiring and how to handle each result: [docs/how-to.md](docs/how-to.md).
+
 ```go
 d, err := spillgate.NewDecoder(spillgate.Limits{MaxOutput: 8 << 20},
     br.Enable(), zstd.Enable())          // optional codecs
@@ -89,6 +91,7 @@ decodes first. In a handler answer a failed body read with
 corrupt data.
 
 ## What it does not cover
+
 
 See [docs/threat-model.md](docs/threat-model.md). In short: archives (zip, tar),
 bounding the compressed input (use `WithMaxInput` or `http.MaxBytesReader`),
