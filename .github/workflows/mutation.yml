@@ -48,4 +48,4 @@ jobs:
         run: >
           go run github.com/go-gremlins/gremlins/cmd/gremlins@v0.6.0 unleash
           --exclude-files '${{ matrix.exclude }}' --output-statuses lt
-          --timeout-coefficient 3 .
+          --timeout-coefficient 3 --threshold-efficacy 85 .
