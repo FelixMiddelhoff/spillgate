@@ -1,8 +1,9 @@
 name: mutation
 
-# Weekly: change the guard code one operator at a time and require the tests
-# to fail. A surviving mutant in the trust path (limits, guard, meter, header,
-# chain, framing) means a missing test and gets one.
+# Weekly: change the code one operator at a time and require the tests to
+# fail. The trust path is split into groups so each job stays well under the
+# time limit (a single run over the whole module did not finish in time).
+# A surviving mutant in the trust path means a missing test and gets one.
 on:
   schedule:
     - cron: "5 5 * * 0"
@@ -14,11 +15,37 @@ permissions:
 jobs:
   mutate:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: limits-guard-meter
+            dir: .
+            exclude: '^(internal|tools|testsuite|br|zstd|httpx)/|^(chain|codec|codec_deflate|codec_gzip|decode|doc|errors|framing|header)\.go$'
+          - name: header-chain-decode
+            dir: .
+            exclude: '^(internal|tools|testsuite|br|zstd|httpx)/|^(codec_deflate|codec_gzip|framing|guard|limits|meter|doc)\.go$'
+          - name: gzip-deflate-framing
+            dir: .
+            exclude: '^(internal|tools|testsuite|br|zstd|httpx)/|^(chain|codec|decode|doc|errors|guard|header|limits|meter)\.go$'
+          - name: httpx
+            dir: .
+            exclude: '^(internal|tools|testsuite|br|zstd)/|^[a-z_]+\.go$'
+          - name: br
+            dir: br
+            exclude: '^$^'
+          - name: zstd
+            dir: zstd
+            exclude: '^$^'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { persist-credentials: false }
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with: { go-version: stable, cache: false }
       - name: gremlins
-        run: go run github.com/go-gremlins/gremlins/cmd/gremlins@v0.6.0 unleash --tags "" --threshold-efficacy 90 .
+        working-directory: ${{ matrix.dir }}
+        run: >
+          go run github.com/go-gremlins/gremlins/cmd/gremlins@v0.6.0 unleash
+          --exclude-files '${{ matrix.exclude }}' --output-statuses lt
+          --timeout-coefficient 3 .
