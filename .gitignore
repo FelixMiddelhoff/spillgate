@@ -19,3 +19,7 @@ Thumbs.db
 # local scratch
 /tmp/
 *.local
+
+# local multi-module workspace
+go.work
+go.work.sum
