@@ -22,7 +22,7 @@ import (
 	"github.com/FelixMiddelhoff/spillgate/internal/corpus"
 )
 
-const corpusVersion = "0.1.0"
+const corpusVersion = "0.2.0"
 
 func main() {
 	root := flag.String("root", ".", "repository root")

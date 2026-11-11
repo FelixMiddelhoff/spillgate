@@ -2,6 +2,10 @@
 
 All notable changes are listed here. Versions below 1.0 may still change the API.
 
+## Unreleased
+
+- SG-R-INP-01 is exact: looking at the byte after MaxInput (to find trailing data) is no longer `input_limit`; taking it is. A complete stream of MaxInput bytes followed by data is `corrupt`. Corpus 0.2.0 adds 17 `BND` vectors. See `docs/porting-inp-probe.md`.
+
 ## v0.1.0 - 2026-11-11
 
 First public version. Modules: `spillgate` and `spillgate/httpx` (tag `v0.1.0`), `spillgate/br` (tag `br/v0.1.0`), `spillgate/zstd` (tag `zstd/v0.1.0`).

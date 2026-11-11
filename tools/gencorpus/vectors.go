@@ -88,6 +88,7 @@ func defineVectors(b *builder) {
 	defineRatioMore(b)
 	defineBrotli(b)
 	defineZstd(b)
+	defineInputProbe(b) // last: its BND ids follow the existing ones
 }
 
 // ---- BOMB ------------------------------------------------------------------
@@ -975,3 +976,67 @@ func defineRatioMore(b *builder) {
 //
 //go:embed testdata/input-limit-source.gz
 var inputLimitSource []byte
+
+// ---- BND: the byte after MaxInput (corpus 0.2.0) ---------------------------
+
+// defineInputProbe covers SG-R-INP-01 as written: a codec LOOKING at the byte
+// after MaxInput (to find trailing data after a complete stream) does not
+// violate it; only TAKING that byte does. For every codec: a valid stream of L
+// bytes plus trailing bytes is corrupt (trailing data under the codec's own
+// rules) with MaxInput L as well as with MaxInput L+1, and with many trailing
+// bytes. For identity, which takes everything it passes, L+1 bytes with
+// MaxInput L is input_limit.
+func defineInputProbe(b *builder) {
+	data := corpus.Data(91, 300)
+	streams := []struct {
+		label, encoding string
+		tags            []string
+		rule            string
+		stream          []byte
+	}{
+		{"gzip", "gzip", nil, "SG-R-CDC-02", corpus.GzipStored(data)},
+		{"zlib", "deflate", nil, "SG-R-CDC-03", corpus.ZlibStored(data)},
+		{"raw deflate", "deflate", nil, "SG-R-CDC-03", corpus.StoredDeflate(data)},
+		{"brotli", "br", []string{"brotli", "needs-br"}, "SG-R-CDC-04", corpus.BrotliStored(data, 16)},
+		{"zstd", "zstd", []string{"zstd", "needs-zstd"}, "SG-R-CDC-05", corpus.ZstdStored(data, 17)},
+	}
+	for _, s := range streams {
+		L := int64(len(s.stream))
+		cases := []struct {
+			tail     []byte
+			maxInput int64
+			desc     string
+		}{
+			{[]byte{0}, L, "one trailing zero byte, MaxInput %d = stream size: the codec only looks at the byte beyond the limit, so the result is corrupt (trailing data), not input_limit"},
+			{[]byte{0}, L + 1, "one trailing zero byte, MaxInput %d = stream size + 1 (control): corrupt (trailing data)"},
+			{make([]byte, 1000), L, "1000 trailing zero bytes, MaxInput %d = stream size: corrupt (trailing data); the source is asked for no more than MaxInput+1 bytes"},
+		}
+		for _, c := range cases {
+			b.addFile("BND", vector{
+				Description: fmt.Sprintf("%s stream of %d bytes plus ", s.label, L) + fmt.Sprintf(c.desc, c.maxInput),
+				Rules:       ids("SG-R-INP-01", "SG-R-INP-02", s.rule),
+				Tags:        append([]string{"boundary", "input-limit", "trailing"}, s.tags...),
+				Encodings:   []string{s.encoding},
+				Limits:      with(generous, "max_input", c.maxInput),
+				Expect:      corruptStream(1),
+			}, append(bytes.Clone(s.stream), c.tail...))
+		}
+	}
+
+	body := corpus.Data(92, 100)
+	b.addFile("BND", vector{
+		Description: "identity body of 101 bytes with MaxInput 100 (control): identity takes every byte it passes, so the 101st is input_limit",
+		Rules:       ids("SG-R-INP-01", "SG-R-INP-02", "SG-R-CDC-10"),
+		Tags:        []string{"boundary", "input-limit", "identity"},
+		Limits:      with(generous, "max_input", 100),
+		Expect:      readError("input_limit", 1, 100),
+	}, append(bytes.Clone(body), 0))
+	b.addFile("BND", vector{
+		Description: "identity body of 1100 bytes with MaxInput 100 (control): input_limit after exactly 100 bytes",
+		Rules:       ids("SG-R-INP-01", "SG-R-INP-02", "SG-R-CDC-10"),
+		Tags:        []string{"boundary", "input-limit", "identity"},
+		Encodings:   []string{"identity"},
+		Limits:      with(generous, "max_input", 100),
+		Expect:      readError("input_limit", 1, 100),
+	}, append(bytes.Clone(body), make([]byte, 1000)...))
+}
