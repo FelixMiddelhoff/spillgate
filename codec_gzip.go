@@ -129,6 +129,12 @@ func (z *gzipReader) readHeader(atBoundary bool) error {
 		if err != nil {
 			return err // io.EOF here is the clean end of the stream
 		}
+		if first != gzipID1 {
+			// Not the start of another member: trailing data. The byte was
+			// only looked at, so it is not taken (SG-R-INP-01).
+			giveBack(z.src)
+			return corrupt("gzip: invalid header")
+		}
 		z.scratch[0] = first
 		if err := readFull(z.src, z.scratch[1:gzipFixedHeaderSize]); err != nil {
 			return err

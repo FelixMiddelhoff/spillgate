@@ -136,6 +136,12 @@ func (g *layerGuard) callCodec(p []byte) (n int, err error) {
 	if n < 0 || n > len(p) {
 		return 0, &Error{Kind: KindInternal, Layer: g.layer, Cause: errCodecContract}
 	}
+	// End of the codec step: a codec that took the MaxInput+1-th byte has
+	// violated SG-R-INP-01, whatever it returned, and whether or not it
+	// looks at the source again. The violation came before this step's output.
+	if limitErr := g.input.checkTaken(); limitErr != nil {
+		return 0, limitErr
+	}
 	return n, err
 }
 

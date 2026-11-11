@@ -28,6 +28,16 @@ func readFull(src Source, buf []byte) error {
 	return noEOF(err)
 }
 
+// giveBack returns the byte just read to the source if it was the probe byte
+// beyond MaxInput: a codec that only looked at it to find trailing data has
+// not taken it (SG-R-INP-01). For any other byte, or a source that cannot take
+// bytes back, it does nothing.
+func giveBack(src Source) {
+	if u, ok := src.(io.ByteScanner); ok {
+		_ = u.UnreadByte()
+	}
+}
+
 // expectEndOfStream succeeds only if src has no byte left. Anything else after
 // the end of a compressed stream is an error (SG-R-CDC-02, -03, -04, -05).
 func expectEndOfStream(src Source, what string) error {
@@ -36,6 +46,7 @@ func expectEndOfStream(src Source, what string) error {
 	case io.EOF:
 		return nil
 	case nil:
+		giveBack(src)
 		return corrupt("%s: unexpected data after the end of the stream", what)
 	default:
 		return err

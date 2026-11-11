@@ -168,6 +168,14 @@ func (r *reader) readMagic() (uint32, error) {
 		}
 		return 0, noEOF(err)
 	}
+	if r.frames > 0 && first != frameMagicFirst && first&0xf0 != skippableFirst {
+		// Cannot start another frame: trailing data. The byte was only looked
+		// at, so it is given back and not taken (SG-R-INP-01).
+		if u, ok := r.src.(io.ByteScanner); ok {
+			_ = u.UnreadByte()
+		}
+		return 0, corrupt("data that is not a zstd frame follows the stream")
+	}
 	var rest [3]byte
 	if _, err := io.ReadFull(r.src, rest[:]); err != nil {
 		return 0, noEOF(err)

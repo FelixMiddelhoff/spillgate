@@ -13,6 +13,11 @@ const (
 	skippableMagic = 0x184D2A50
 	skippableMask  = 0xFFFFFFF0
 
+	// First byte (little-endian) of the two kinds of magic number: a byte that
+	// is neither cannot start another frame.
+	frameMagicFirst = frameMagic & 0xff     // 0x28
+	skippableFirst  = skippableMagic & 0xf0 // 0x50..0x5f once masked
+
 	// maxBlockSize is the largest block any frame may hold (128 KiB).
 	maxBlockSize = 128 << 10
 

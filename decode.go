@@ -194,10 +194,10 @@ func (d *Decoder) buildChain(ctx context.Context, src io.Reader, layers []string
 			chain.source = meter
 		}
 
-		var codec io.Reader = meter // identity: bytes pass through the guard unchanged
+		var codec io.Reader = meter // identity: bytes pass through the guard unchanged; taking = passing, so the strict meter
 		if len(layers) > 0 {
 			var err error
-			if codec, err = newContained(d.codecs[layers[i]], meter); err != nil {
+			if codec, err = newContained(d.codecs[layers[i]], codecSource{meter}); err != nil {
 				chain.Close()
 				return nil, &Error{Kind: KindInternal, Layer: index, Cause: fmt.Errorf("creating the %s decoder: %w", layers[i], err)}
 			}

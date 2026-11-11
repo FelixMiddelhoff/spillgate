@@ -107,6 +107,15 @@ func (r *reader) Read(p []byte) (int, error) {
 	n, err := r.decoder.Read(p)
 	if err != nil {
 		r.err = err
+		if err.Error() == errExcessiveInput {
+			// The decoder fetched more than the stream holds. If the probe byte
+			// beyond MaxInput was part of what it fetched, it only looked at it:
+			// give it back, so that trailing data is corrupt and not input_limit
+			// (SG-R-INP-01). Anything else is a no-op.
+			if u, ok := r.src.(io.ByteScanner); ok {
+				_ = u.UnreadByte()
+			}
+		}
 	}
 	return n, err
 }
@@ -140,6 +149,10 @@ func (r *reader) start() error {
 	r.decoder = brotli.NewReader(&prefixed{first: first, src: r.src})
 	return nil
 }
+
+// errExcessiveInput is the text of the error the brotli library reports for
+// bytes after the last meta-block. The library does not export the value.
+const errExcessiveInput = "brotli: excessive input"
 
 func memoryLimit(what string) error {
 	return &spillgate.Error{Kind: spillgate.KindMemoryLimit, Cause: errors.New("brotli stream asks for " + what)}
