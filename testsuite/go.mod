@@ -3,7 +3,7 @@ module github.com/FelixMiddelhoff/spillgate/testsuite
 go 1.25
 
 require (
-	github.com/FelixMiddelhoff/spillgate v0.1.0
+	github.com/FelixMiddelhoff/spillgate v0.1.1
 	github.com/FelixMiddelhoff/spillgate/br v0.0.0
 	github.com/FelixMiddelhoff/spillgate/zstd v0.0.0
 	github.com/andybalholm/brotli v1.2.8
