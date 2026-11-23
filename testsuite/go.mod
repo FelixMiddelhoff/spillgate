@@ -7,7 +7,7 @@ require (
 	github.com/FelixMiddelhoff/spillgate/br v0.0.0
 	github.com/FelixMiddelhoff/spillgate/zstd v0.0.0
 	github.com/andybalholm/brotli v1.2.8
-	github.com/klauspost/compress v1.20.3
+	github.com/klauspost/compress v1.20.5
 	go.uber.org/goleak v1.3.0
 )
 
